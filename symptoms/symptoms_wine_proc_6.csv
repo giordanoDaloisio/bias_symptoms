@@ -1,0 +1,3 @@
+,variable,importance,correlation,unbalance,statistical_parity,equalized_odds
+0,alcohol,0.3652879156528791,0.7755439463875933,,0.0,0.0
+1,type,0.05563665855636659,0.14715812763933228,,0.0,0.0
