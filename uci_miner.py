@@ -1,3 +1,5 @@
+import time
+
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -5,33 +7,58 @@ from ucimlrepo import fetch_ucirepo, list_available_datasets
 import os
 import pandas as pd
 import config as cf
+import re
+import csv
+
+def generate_range_ratings(start, end, delta):
+    tuple_list = []
+    current = start
+    while current <= end - delta:
+        tuple_list.append((current, current + delta))
+        current += delta
+    return tuple_list
+
+
 
 def create_folder_if_not_exist(path):
     if not os.path.exists(path):
         os.mkdir(path)
 
-
-def parse_html_to_json(url, json_file_name):
+def download_dataset(url, save_path):
     try:
         # Send an HTTP GET request to the URL
         response = requests.get(url)
         response.raise_for_status()  # Check for HTTP errors
 
+        # Open the file in binary write mode and write the content to it
+        with open(cf.UCI_METADATA_FILE + save_path, 'wb') as file:
+            file.write(response.content)
+
+        print(f'File downloaded from {url} and saved as {save_path}.')
+    except Exception as e:
+        print(f'An error occurred: {str(e)}')
+
+
+def extract_numbers(s):
+    match = re.search(r'\d+', s)
+    return match.group(0) if match else None
+
+
+def parse_html_to_json(url_repo):
+    list_links = []
+    try:
+        # Send an HTTP GET request to the URL
+        response = requests.get(url_repo)
+        response.raise_for_status()
+
         # Parse the HTML content using BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Create a dictionary to store the parsed data
-        parsed_data = {
-            'title': soup.title.string if soup.title else None,
-            'body': soup.get_text(),
-        }
+        for link in soup.find_all('a'):
+            if 'dataset/' in str(link):
+                list_links.append(link.get('href'))
 
-        # Save the parsed data as JSON
-        with open(json_file_name, 'w', encoding='utf-8') as json_file:
-            json.dump(parsed_data, json_file, indent=4, ensure_ascii=False)
-        print(f'HTML content from {url} has been successfully parsed and saved as {json_file_name}.')
-
-        return parsed_data
+        return set(list_links)
 
     except Exception as e:
         print(f'An error occurred: {str(e)}')
@@ -63,10 +90,27 @@ def collect_uci_metadata():
 
 
 if __name__ == "__main__":
-    df_data = pd.read_csv('uci_metadata/result.csv')
-    print(df_data.shape)
+    #df_data = pd.read_csv('uci_data/result.csv')
+    # for id, url in zip(df_data['id'].values.astype(str),df_data['url'].values.astype(str)):
+    #     download_dataset(url, id+'.csv')
+    list_tuples = generate_range_ratings(0, 100, 25)
 
-# # Example usage:
-# url = 'https://archive.ics.uci.edu/datasets?Task=Classification&skip=0&take=10&sort=desc&orderBy=NumHits&search=&Types=Tabular'  # Replace with the URL you want to parse
-# json_file_name = 'parsed_data.json'  # Replace with the desired JSON file name
-# parse_html_to_json(url, json_file_name)
+    dict_links = {}
+    index = 0
+    for start, end in list_tuples:
+        list_url = 'https://archive.ics.uci.edu/datasets?Task=Classification&skip=+'+str(start)+'&take='+str(end)+'&sort=desc&orderBy=NumHits&search=&Types=Tabular'
+        list_links = parse_html_to_json(list_url)
+        time.sleep(5)
+        for link in list_links:
+            id_dataset=extract_numbers(link)
+            dict_links.update({id_dataset: link})
+            print('updating dict')
+
+    with open('uci_data/links.csv', 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['id', 'link']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for key, value in dict_links.items():
+            if key is not None:  # Ensure that key is not None
+                writer.writerow({'id': key, 'link': value})
