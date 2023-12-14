@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 import config as cf
-
+import data_utils as du
 
 def create_server_connection(host_name, user_name, user_password, db_name, port_number):
     connection = None
@@ -24,24 +24,18 @@ def create_server_connection(host_name, user_name, user_password, db_name, port_
 def get_dataset_description(conn):
     dict_datasets = {}
     cur = conn.cursor()
-    cur.execute("SELECT id, description FROM dataset,repository where dataset.dataset_id=repository.id;")
+    cur.execute("SELECT id,description FROM dataset,repository where dataset.dataset_id=repository.id;")
     data = cur.fetchall()
-    dict_datasets.update({data[0]: data[1]})
+    for d in data:
+        dict_datasets.update({d[0]: d[1]})
     return dict_datasets
 
 
 
-def test_query(conn):
-    cur = conn.cursor()
-    cur.execute("SELECT model_id FROM model LIMIT 10;")
-
-    for model_id in cur.fetchall():
-        print(model_id)
-
-
 if __name__ == '__main__':
     connection = create_server_connection(cf.HOST, cf.USER, cf.PWD, cf.DB, cf.PORT)
-    get_dataset_description(connection)
+    model_dict = get_dataset_description(connection)
+    du.write_dict_to_csv(model_dict,'hf_dump.csv','dataset_id', 'desc')
     if connection.is_connected():
         connection.close()
         print("MySQL connection is closed")

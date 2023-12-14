@@ -8,7 +8,6 @@ import re
 def preprocess_variable_name(var_name):
     return str(var_name).lower()
 
-
 def write_dict_to_csv(dict, out_file, field_key, field_val):
     with open(out_file, 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = [field_key, field_val]
