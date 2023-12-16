@@ -3,3 +3,4 @@ data/kickstarter_proc.csv
 .idea
 venvgit
 uci_data
+data_preprocessing/raw_data
