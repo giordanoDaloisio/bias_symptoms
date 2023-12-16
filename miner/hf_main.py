@@ -24,18 +24,22 @@ def create_server_connection(host_name, user_name, user_password, db_name, port_
 def get_dataset_description(conn):
     dict_datasets = {}
     cur = conn.cursor()
-    cur.execute("SELECT id,description FROM dataset,repository where dataset.dataset_id=repository.id;")
+    cur.execute("SELECT id,description,card_data FROM dataset,repository where dataset.dataset_id=repository.id;")
     data = cur.fetchall()
+
     for d in data:
-        dict_datasets.update({d[0]: d[1]})
+        str_desc = str(d[1]) + str(d[2])
+        dict_datasets.update({d[0]: str_desc.strip()})
     return dict_datasets
 
-
-
-if __name__ == '__main__':
+def connect_to_hf():
     connection = create_server_connection(cf.HOST, cf.USER, cf.PWD, cf.DB, cf.PORT)
     model_dict = get_dataset_description(connection)
-    du.write_dict_to_csv(model_dict,'hf_dump.csv','dataset_id', 'desc')
+    du.write_dict_to_csv(model_dict, '../uci_data/hf_dump.csv', 'dataset_id', 'desc')
     if connection.is_connected():
         connection.close()
         print("MySQL connection is closed")
+
+if __name__ == '__main__':
+
+    du.filter_hf_datasets('../uci_data/hf_dump.csv')

@@ -5,6 +5,22 @@ import os
 import re
 
 
+
+def filter_hf_datasets(hf_path):
+    hf_dump = pd.read_csv(hf_path)
+    df_res = pd.DataFrame(columns=hf_dump.columns)
+    keyword_set = ['bias', 'fairness', 'discrimination']
+    for idx, row in hf_dump.iterrows():
+        for k in keyword_set:
+            if k in str(row):
+                df_res = pd.concat([df_res, pd.DataFrame([row])], ignore_index=True)
+
+    df_res.to_csv('hf_dump_filtered.csv', index=False)
+
+
+
+
+
 def preprocess_variable_name(var_name):
     return str(var_name).lower()
 

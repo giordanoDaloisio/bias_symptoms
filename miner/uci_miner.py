@@ -92,7 +92,7 @@ def collect_uci_metadata(file_name, dump):
 
 
 if __name__ == "__main__":
-    df_data = pd.read_csv('hf_dump.csv')
+    df_data = pd.read_csv('../uci_data/hf_dump.csv')
     print(df_data.head())
     # for id, url in zip(df_data['id'].values.astype(str),df_data['url'].values.astype(str)):
     #     download_dataset(url, id+'.csv')
