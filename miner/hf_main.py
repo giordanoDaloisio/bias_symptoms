@@ -41,5 +41,5 @@ def connect_to_hf():
         print("MySQL connection is closed")
 
 if __name__ == '__main__':
-
+    #print("srun")
     du.filter_hf_datasets('../uci_data/hf_dump.csv')
