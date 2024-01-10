@@ -1,4 +1,5 @@
 import pandas as pd
+from argparse import ArgumentParser
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from trainer import train_model
@@ -6,12 +7,12 @@ from trainer import train_model
 
 
 if __name__ == "__main__":
-    # parser = ArgumentParser()
-    # parser.add_argument("-d", "--data")
-    # args = parser.parse_args()
+    parser = ArgumentParser()
+    parser.add_argument("-d", "--data")
+    args = parser.parse_args()
 
-    data = "data/all_features.csv"
-    data_name = data.split("/")[1].split(".")[0]
+    #data = "data/all_features.csv"
+    data_name = args.data.split("/")[1].split(".")[0]
     params = {
         'n_estimators': [100, 200, 500],
         'max_depth': [10, 50, 100, None],
@@ -21,7 +22,7 @@ if __name__ == "__main__":
         'bootstrap': [True, False],
         'criterion': ['squared_error', 'absolute_error']
     }
-    data = pd.read_csv(data, index_col=[0, 1])
+    data = pd.read_csv(args.data, index_col=[0, 1])
 
     train, val = train_test_split(data, test_size=0.2)
     r2_scores, mape_scores = train_model(
