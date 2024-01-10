@@ -1,7 +1,7 @@
 import pandas as pd
 from joblib import dump
 from sklearn.model_selection import KFold, GridSearchCV
-from sklearn.metrics import mean_absolute_percentage_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.base import BaseEstimator
 
 
@@ -54,13 +54,13 @@ def train_model(
         eo_scores_r2.append(r2_score(validation["equal_opportunity"], eo))
         ao_scores_r2.append(r2_score(validation["average_odds"], ao))
         sp_scores_mape.append(
-            mean_absolute_percentage_error(validation["statistical_parity"], sp)
+            mean_squared_error(validation["statistical_parity"], sp, squared=False)
         )
         eo_scores_mape.append(
-            mean_absolute_percentage_error(validation["equal_opportunity"], eo)
+            mean_squared_error(validation["equal_opportunity"], eo, squared=False)
         )
         ao_scores_mape.append(
-            mean_absolute_percentage_error(validation["average_odds"], ao)
+            mean_squared_error(validation["average_odds"], ao, squared=False)
         )
     r2_scores = pd.DataFrame(
         {

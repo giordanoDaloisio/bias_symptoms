@@ -30,4 +30,4 @@ if __name__ == "__main__":
         "mlp",
     )
     r2_scores.to_csv(f"scores/mlp_r2_scores_{data_name}.csv")
-    mape_scores.to_csv(f"scores/mlp_mape_scores_{data_name}.csv")
+    mape_scores.to_csv(f"scores/mlp_rmse_scores_{data_name}.csv")
