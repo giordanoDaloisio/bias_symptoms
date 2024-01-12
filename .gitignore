@@ -4,3 +4,4 @@ data/kickstarter_proc.csv
 venvgit
 uci_data
 data_preprocessing/raw_data
+model_selection/xgb_test.py
