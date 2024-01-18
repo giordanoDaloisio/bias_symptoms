@@ -13,14 +13,14 @@ for file in os.listdir(base_folder):
 
         full_data = pd.concat([full_data, df])
 full_data.dropna(inplace=True)
-full_data.rename(
-    columns={"unpriv_prob": "unpriv_prob_pos", "priv_prob": "priv_prob_pos"},
-    inplace=True,
-)
-full_data["unpriv_prob_neg"] = 1 - full_data["unpriv_prob_pos"]
-full_data["priv_prob_neg"] = 1 - full_data["priv_prob_pos"]
-full_data["pos_prob"] = full_data["unpriv_prob_pos"] - full_data["priv_prob_pos"]
-full_data["neg_prob"] = full_data["unpriv_prob_neg"] - full_data["priv_prob_neg"]
+# full_data.rename(
+#     columns={"unpriv_prob": "unpriv_prob_pos", "priv_prob": "priv_prob_pos"},
+#     inplace=True,
+# )
+# full_data["unpriv_prob_neg"] = 1 - full_data["unpriv_prob_pos"]
+# full_data["priv_prob_neg"] = 1 - full_data["priv_prob_pos"]
+# full_data["pos_prob"] = full_data["unpriv_prob_pos"] - full_data["priv_prob_pos"]
+# full_data["neg_prob"] = full_data["unpriv_prob_neg"] - full_data["priv_prob_neg"]
 full_data.set_index(["variable", "data"], inplace=True)
 full_data.to_csv(os.path.join("..", "model_selection", "data", "all_features.csv"))
 
