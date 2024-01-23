@@ -7,3 +7,4 @@ data_preprocessing/raw_data
 model_selection/xgb_test.py
 evaluation/all_features_rf.joblib
 evaluation/all_features_xgb.joblib
+*.joblib
