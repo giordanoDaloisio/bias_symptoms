@@ -1,6 +1,19 @@
 import os
 import pandas as pd
 
+
+def data_proc(all):
+    metrics = ["statistical_parity", "equal_opportunity", "average_odds"]
+    all[metrics] = all[metrics].abs()
+    all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
+    all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
+    all.loc[all["equal_opportunity"] > 0.2, "equal_opportunity"] = 1
+    all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
+    all.loc[all["average_odds"] > 0.2, "average_odds"] = 1
+    all.loc[all["average_odds"] != 1, "average_odds"] = 0
+    return all
+
+
 base_folder = "symptoms_kendall_logreg"
 
 full_data = pd.DataFrame()
@@ -13,16 +26,16 @@ for file in os.listdir(base_folder):
 
         full_data = pd.concat([full_data, df])
 full_data.dropna(inplace=True)
-# full_data.rename(
-#     columns={"unpriv_prob": "unpriv_prob_pos", "priv_prob": "priv_prob_pos"},
-#     inplace=True,
-# )
-# full_data["unpriv_prob_neg"] = 1 - full_data["unpriv_prob_pos"]
-# full_data["priv_prob_neg"] = 1 - full_data["priv_prob_pos"]
-# full_data["pos_prob"] = full_data["unpriv_prob_pos"] - full_data["priv_prob_pos"]
-# full_data["neg_prob"] = full_data["unpriv_prob_neg"] - full_data["priv_prob_neg"]
+full_data.rename(
+    columns={"unpriv_prob": "unpriv_prob_pos", "priv_prob": "priv_prob_pos"},
+    inplace=True,
+)
+full_data["unpriv_prob_neg"] = 1 - full_data["unpriv_prob_pos"]
+full_data["priv_prob_neg"] = 1 - full_data["priv_prob_pos"]
+full_data["pos_prob"] = full_data["unpriv_prob_pos"] - full_data["priv_prob_pos"]
+full_data["neg_prob"] = full_data["unpriv_prob_neg"] - full_data["priv_prob_neg"]
 full_data.set_index(["variable", "data"], inplace=True)
-full_data.to_csv(os.path.join("..", "model_selection", "data", "all_features.csv"))
+full_data.to_csv(os.path.join("result", "all_features.csv"))
 
 bias_symp = [
     "correlation_true",
@@ -38,10 +51,12 @@ bias_symp = [
     "priv_prob_neg",
     "pos_prob",
     "neg_prob",
+    "kurtosis_var",
+    "skew_var",
 ]
 
 symp_data = full_data[bias_symp]
-symp_data.to_csv(os.path.join("..", "model_selection", "data", "bias_symptoms.csv"))
+symp_data.to_csv(os.path.join("result", "bias_symptoms.csv"))
 
 metafeatures = [
     "statistical_parity",
@@ -80,14 +95,16 @@ metafeatures = [
     "kurtosis_max",
     "kurtosis_mean",
     "kurtosis_std",
-    "kurtosis_var",
     "skew_min",
     "skew_max",
     "skew_mean",
     "skew_std",
-    "skew_var",
     "class_entropy",
 ]
 
 meta_data = full_data[metafeatures]
-meta_data.to_csv(os.path.join("..", "model_selection", "data", "metafeatures.csv"))
+meta_data.to_csv(os.path.join("result", "metafeatures.csv"))
+
+data_proc(full_data).to_csv(os.path.join("result_class", "all_features.csv"))
+data_proc(symp_data).to_csv(os.path.join("result_class", "bias_symptoms.csv"))
+data_proc(meta_data).to_csv(os.path.join("result_class", "metafeatures.csv"))
