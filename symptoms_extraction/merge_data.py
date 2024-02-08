@@ -35,11 +35,11 @@ full_data["priv_prob_neg"] = 1 - full_data["priv_prob_pos"]
 full_data["pos_prob"] = full_data["unpriv_prob_pos"] - full_data["priv_prob_pos"]
 full_data["neg_prob"] = full_data["unpriv_prob_neg"] - full_data["priv_prob_neg"]
 full_data.set_index(["variable", "data"], inplace=True)
+full_data.drop(columns="correlation_pred", inplace=True)
 full_data.to_csv(os.path.join("result", "all_features.csv"))
 
 bias_symp = [
     "correlation_true",
-    "correlation_pred",
     "mutual_info",
     "unpriv_prob_pos",
     "priv_prob_pos",
