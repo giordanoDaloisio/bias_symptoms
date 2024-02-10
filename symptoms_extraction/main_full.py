@@ -210,7 +210,7 @@ def analysis(
     symptoms["variable"] = variable
     # symptoms["perm_importance"] = perm_importance
     symptoms["correlation_true"] = corr_true
-    symptoms["correlation_pred"] = correlation_pred
+    # symptoms["correlation_pred"] = correlation_pred
     # symptoms["importance_coeff"] = coeff
     symptoms["mutual_info"] = mutual_info
     # symptoms["variable_value"] = sensitive_value
