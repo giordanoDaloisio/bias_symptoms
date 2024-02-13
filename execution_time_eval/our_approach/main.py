@@ -49,8 +49,8 @@ if __name__ == "__main__":
     model = load("model.joblib")
     pyRAPL.setup()
     measure = pyRAPL.Measurement("bar")
+    csv_output = pyRAPL.outputs.CSVOutput('measures.csv')
     times = []
-    consumption = pd.DataFrame()
     for i in range(20):
         for file in os.listdir("../data"):
             data = pd.read_csv(f"../data/{file}")
@@ -61,8 +61,11 @@ if __name__ == "__main__":
             pred = model.predict(symptoms)
             end_time = time.time()
             measure.end()
+            measure.export(csv_output)
             times.append(end_time - start_time)
-            consumption = pd.concat([consumption, measure.result._asdict()], axis=1)
+            print(f"Dataset: {file} completed")
+        print(f"Round: {i} completed")
     with open("times.txt", "w") as f:
-        f.writelines(times)
-    consumption.to_csv("consumption.csv")
+    	for time in times:
+        	f.write(str(time)+'\n')
+    csv_output.save()

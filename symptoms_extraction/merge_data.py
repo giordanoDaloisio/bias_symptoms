@@ -19,21 +19,12 @@ base_folder = "symptoms_kendall_logreg"
 full_data = pd.DataFrame()
 
 for file in os.listdir(base_folder):
-    if file.endswith(".csv"):
-        df = pd.read_csv(os.path.join(base_folder, file), index_col=0)
-        name = file.split("_")[0]
-        df["data"] = name
+    df = pd.read_csv(os.path.join(base_folder, file), index_col=0)
+    name = file.split("_")[0]
+    df["data"] = name
+    full_data = pd.concat([full_data, df])
 
-        full_data = pd.concat([full_data, df])
-full_data.dropna(inplace=True)
-full_data.rename(
-    columns={"unpriv_prob": "unpriv_prob_pos", "priv_prob": "priv_prob_pos"},
-    inplace=True,
-)
-full_data["unpriv_prob_neg"] = 1 - full_data["unpriv_prob_pos"]
-full_data["priv_prob_neg"] = 1 - full_data["priv_prob_pos"]
-full_data["pos_prob"] = full_data["unpriv_prob_pos"] - full_data["priv_prob_pos"]
-full_data["neg_prob"] = full_data["unpriv_prob_neg"] - full_data["priv_prob_neg"]
+# full_data.dropna(inplace=True)
 full_data.set_index(["variable", "data"], inplace=True)
 full_data.drop(columns="correlation_pred", inplace=True)
 full_data.to_csv(os.path.join("result", "all_features.csv"))
