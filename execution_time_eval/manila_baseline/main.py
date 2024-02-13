@@ -1,22 +1,65 @@
 import pandas as pd
-import argparse
 import os
-import pickle
-
+import time
+import pyRAPL
 from experiment import run_exp
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='Experiment file for fairness testing')
-    parser.add_argument('-d', '--dataset', type=str,
-                        help='Required argument: relative path of the dataset to process')
-    args = parser.parse_args()
-    
-    data = pd.read_csv(args.dataset
-    )
-    model, report = run_exp(data)
-    os.makedirs('ris', exist_ok=True)
-    dir_name = os.path.basename(os.path.dirname(__file__))
-    report.round(3).to_csv(os.path.join('ris',f'report_{dir_name}.csv'))
-    model_name = f"{report.loc[0,'model']}_{report.loc[0,'fairness_method']}"
-    pickle.dump(model, open(os.path.join('ris',model_name+'_'+dir_name+'.pkl'), 'wb'))
+
+def get_label_var(dataset):
+    if "adult" in dataset:
+        return ("income", 1, "sex")
+    if "arrhythmia" in dataset:
+        return ("y", 1, "1")
+    if "bank" in dataset:
+        return ("loan", 1, "age")
+    if "cmc" in dataset:
+        return ("contr_use", 2, "wife_religion")
+    if "compas" in dataset:
+        return ("two_year_recid", 0, "race")
+    if "crime" in dataset:
+        return ("ViolentCrimesClass", 100, "black_people")
+    if "credit_card" in dataset:
+        return ("y", 1, "SEX")
+    if "drug" in dataset:
+        return ("y", 0, "gender")
+    if "german" in dataset:
+        return ("credit", 1, "age")
+    if "healt" in dataset:
+        return ("y", 1, "sexFEMALE")
+    if "hearth" in dataset:
+        return ("y", 0, "sex")
+    if "law" in dataset:
+        return ("gpa", 2, "race")
+    if "medical" in dataset:
+        return ("IsChallenge", 0, "gender")
+    if "obesity" in dataset:
+        return ("y", 0, "Gender")
+    if "park" in dataset:
+        return ("score_cut", 0, "sex")
+    if "resyduo" in dataset:
+        return ("tot_recommendations", 1, "views")
+    if "student" in dataset:
+        return ("y", 1, "sex_M")
+    if "wine" in dataset:
+        return ("quality", 6, "type")
+
+
+if __name__ == "__main__":
+    pyRAPL.setup()
+    measure = pyRAPL.Measurement("bar")
+    times = []
+    consumption = pd.DataFrame()
+    for i in range(20):
+        for file in os.listdir("../data"):
+            data = pd.read_csv(f"../data/{file}")
+            label, pos_label, sensitive_var = get_label_var(file)
+            measure.begin()
+            start_time = time.time()
+            model, report = run_exp(data, label, pos_label, sensitive_var)
+            end_time = time.time()
+            measure.end()
+            consumption = pd.concat([consumption, measure.result._asdict()], axis=1)
+            times.append(end_time - start_time + "\n")
+    with open("times.txt", "w") as f:
+        f.writelines(times)
+    consumption.to_csv("consumption.csv")
