@@ -67,12 +67,7 @@ def _compute_tpr_fpr_groups(data_pred,label,group_condition,positive_label):
 
 
 def statistical_parity(data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str):
-    query = '&'.join([f'{k}=={v}' for k, v in group_condition.items()])
-    label_query = label_name+'=='+str(positive_label)
-    unpriv_group_prob = (len(data_pred.query(query + '&' + label_query))
-                         / len(data_pred.query(query)))
-    priv_group_prob = (len(data_pred.query('~(' + query + ')&' + label_query))
-                       / len(data_pred.query('~(' + query+')')))
+    unpriv_group_prob, priv_group_prob = _compute_probs(data_pred, label_name, positive_label, group_condition)
     return unpriv_group_prob - priv_group_prob
 
 def equalized_odds(data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str):

@@ -14,7 +14,7 @@ np.random.seed(2)
 
 # TRAINING FUNCTIONS
 
-def cross_val(classifier, data, label, unpriv_group, priv_group, sensitive_features, positive_label, metrics, n_splits=10, preprocessor=None, inprocessor=None, postprocessor=None):
+def cross_val(classifier, data, label, unpriv_group, priv_group, sensitive_features, positive_label, metrics, n_splits=2, preprocessor=None, inprocessor=None, postprocessor=None):
     n_splits = 2
     data_start = data.copy()
     fold = KFold(n_splits=n_splits, shuffle=True, random_state=2)

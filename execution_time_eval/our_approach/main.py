@@ -49,7 +49,7 @@ if __name__ == "__main__":
     model = load("model.joblib")
     pyRAPL.setup()
     measure = pyRAPL.Measurement("bar")
-    csv_output = pyRAPL.outputs.CSVOutput('measures.csv')
+    csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
     times = []
     for i in range(20):
         for file in os.listdir("../data"):
@@ -66,6 +66,6 @@ if __name__ == "__main__":
             print(f"Dataset: {file} completed")
         print(f"Round: {i} completed")
     with open("times.txt", "w") as f:
-    	for time in times:
-        	f.write(str(time)+'\n')
+        for time in times:
+            f.write(str(time) + "\n")
     csv_output.save()
