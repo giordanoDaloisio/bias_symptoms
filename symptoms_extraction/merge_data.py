@@ -26,7 +26,7 @@ for file in os.listdir(base_folder):
 
 # full_data.dropna(inplace=True)
 full_data.set_index(["variable", "data"], inplace=True)
-full_data.drop(columns="correlation_pred", inplace=True)
+# full_data.drop(columns="correlation_pred", inplace=True)
 full_data.to_csv(os.path.join("result", "all_features.csv"))
 
 bias_symp = [

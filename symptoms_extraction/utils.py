@@ -1,7 +1,19 @@
 def get_label(dataset):
     if "adult" in dataset:
         return ("income", 1)
-    # if "aps" in dataset:
+    if "ad" in dataset:
+        return ('y', 1)
+    if 'athlete' in dataset:
+        return ('Medal_Gold', 1)
+    if 'diabetic' in dataset:
+        return ('diabetesMed', 0)
+    if 'ibm' in dataset:
+        return ('Attrition', 0)
+    if 'kddcup' in dataset:
+        return ('y', 1)
+    if "bank" in dataset:
+        return ("loan", 1)
+# if "aps" in dataset:
     #     return "class"
     if "cmc" in dataset:
         return ("contr_use", 2)

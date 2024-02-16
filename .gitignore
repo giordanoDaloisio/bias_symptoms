@@ -8,3 +8,8 @@ model_selection/xgb_test.py
 evaluation/all_features_rf.joblib
 evaluation/all_features_xgb.joblib
 *.joblib
+symptoms_extraction/baselines/ad.csv
+symptoms_extraction/baselines/nursery.csv
+symptoms_extraction/baselines/placement.csv
+symptoms_extraction/baselines/us.csv
+symptoms_extraction/baselines/vaccine.csv
