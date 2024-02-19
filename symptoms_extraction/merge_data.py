@@ -7,7 +7,7 @@ def data_proc(all):
     all[metrics] = all[metrics].abs()
     all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
     all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
-    all.loc[all["equal_opportunity"] > 0.2, "equal_opportunity"] = 1
+    all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
     all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
     all.loc[all["average_odds"] > 0.2, "average_odds"] = 1
     all.loc[all["average_odds"] != 1, "average_odds"] = 0

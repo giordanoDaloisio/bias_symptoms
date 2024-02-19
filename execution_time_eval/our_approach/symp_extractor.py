@@ -9,7 +9,9 @@ def symp_extractor(test: pd.DataFrame, true_label, positive_value, sensitive_var
     metrics = Metrics(test, None, true_label, positive_value)
 
     # for v in test[i].unique():
-    symptoms["correlation_true"] = test.corr("kendall")[true_label][sensitive_var]
+    symptoms["correlation_true"] = test[[true_label, sensitive_var]].corr("kendall")[
+        true_label
+    ][sensitive_var]
     symptoms["unbalance"] = metrics.group_ratio({sensitive_var: 0})
     symptoms["unpriv_prob_pos"] = metrics.compute_probs({sensitive_var: 0}, False)[0]
     symptoms["priv_prob_pos"] = metrics.compute_probs({sensitive_var: 0}, False)[1]
