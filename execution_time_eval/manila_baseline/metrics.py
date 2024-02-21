@@ -1,27 +1,28 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
- 
+
 from sklearn.metrics import accuracy_score
 
+
 def _get_groups(data, label_name, positive_label, group_condition):
-    query = '&'.join([str(k) + '==' + str(v)
-                     for k, v in group_condition.items()])
-    label_query = label_name + '==' + str(positive_label)
+    query = "&".join([str(k) + "==" + str(v) for k, v in group_condition.items()])
+    label_query = label_name + "==" + str(positive_label)
     unpriv_group = data.query(query)
-    unpriv_group_pos = data.query(query + '&' + label_query)
-    priv_group = data.query('~(' + query + ')')
-    priv_group_pos = data.query('~(' + query + ')&' + label_query)
+    unpriv_group_pos = data.query(query + "&" + label_query)
+    priv_group = data.query("~(" + query + ")")
+    priv_group_pos = data.query("~(" + query + ")&" + label_query)
     return unpriv_group, unpriv_group_pos, priv_group, priv_group_pos
 
 
 def _compute_probs(data_pred, label_name, positive_label, group_condition):
-    unpriv_group, unpriv_group_pos, priv_group, priv_group_pos = _get_groups(data_pred, label_name, positive_label, group_condition)
-    unpriv_group_prob = (len(unpriv_group_pos)
-                         / len(unpriv_group))
-    priv_group_prob = (len(priv_group_pos)
-                       / len(priv_group))
+    unpriv_group, unpriv_group_pos, priv_group, priv_group_pos = _get_groups(
+        data_pred, label_name, positive_label, group_condition
+    )
+    unpriv_group_prob = len(unpriv_group_pos) / len(unpriv_group)
+    priv_group_prob = len(priv_group_pos) / len(priv_group)
     return unpriv_group_prob, priv_group_prob
+
 
 def _compute_tpr_fpr(y_true, y_pred, positive_label):
     TN = 0
@@ -39,58 +40,63 @@ def _compute_tpr_fpr(y_true, y_pred, positive_label):
                 FP += 1
             else:
                 TN += 1
-    if TP+FN == 0:
+    if TP + FN == 0:
         TPR = 0
     else:
-        TPR = TP/(TP+FN)
-    if FP+TN == 0:
+        TPR = TP / (TP + FN)
+    if FP + TN == 0:
         FPR = 0
     else:
-        FPR = FP/(FP+TN)
+        FPR = FP / (FP + TN)
     return FPR, TPR
 
-def _compute_tpr_fpr_groups(data_pred,label,group_condition,positive_label):
-    query = '&'.join([f'{k}=={v}' for k, v in group_condition.items()])
+
+def _compute_tpr_fpr_groups(data_pred, label, group_condition, positive_label):
+    query = "&".join([f"{k}=={v}" for k, v in group_condition.items()])
     unpriv_group = data_pred.query(query)
     priv_group = data_pred.drop(unpriv_group.index)
 
-    y_true_unpriv = unpriv_group['y_true'].values.ravel()
+    y_true_unpriv = unpriv_group["y_true"].values.ravel()
     y_pred_unpric = unpriv_group[label].values.ravel()
-    y_true_priv = priv_group['y_true'].values.ravel()
+    y_true_priv = priv_group["y_true"].values.ravel()
     y_pred_priv = priv_group[label].values.ravel()
-    
+
     fpr_unpriv, tpr_unpriv = _compute_tpr_fpr(
-        y_true_unpriv, y_pred_unpric, positive_label)
-    fpr_priv, tpr_priv = _compute_tpr_fpr(
-        y_true_priv, y_pred_priv, positive_label)
+        y_true_unpriv, y_pred_unpric, positive_label
+    )
+    fpr_priv, tpr_priv = _compute_tpr_fpr(y_true_priv, y_pred_priv, positive_label)
     return fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv
 
 
-def statistical_parity(data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str):
-    unpriv_group_prob, priv_group_prob = _compute_probs(data_pred, label_name, positive_label, group_condition)
+def statistical_parity(
+    data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str
+):
+    unpriv_group_prob, priv_group_prob = _compute_probs(
+        data_pred, label_name, positive_label, group_condition
+    )
     return unpriv_group_prob - priv_group_prob
 
-def equalized_odds(data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str):
-    fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = _compute_tpr_fpr_groups(data_pred, label_name, group_condition, positive_label)
+
+def average_odds_difference(
+    data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str
+):
+    fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = _compute_tpr_fpr_groups(
+        data_pred, label_name, group_condition, positive_label
+    )
     return (tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)
 
-def average_odds_difference(data_pred: pd.DataFrame, group_condition: str, label: str, positive_label: int):
-    unpriv_group, unpriv_group_pos, priv_group, priv_group_pos = _get_groups(data_pred, label, positive_label, group_condition)
-    accuracy_priv = accuracy(priv_group, label)
-    accuracy_unpriv = accuracy(unpriv_group, label)
-    return accuracy_priv - accuracy_unpriv
 
-
+def equalized_odds(
+    data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str
+):
+    _, tpr_unpriv, _, tpr_priv = _compute_tpr_fpr_groups(
+        data_pred, label_name, group_condition, positive_label
+    )
+    return tpr_priv - tpr_unpriv
 
 
 def accuracy(df_pred: pd.DataFrame, label: str):
-    return accuracy_score(df_pred['y_true'].values, df_pred[label].values)
-
-
-
-
-
-
+    return accuracy_score(df_pred["y_true"].values, df_pred[label].values)
 
 
 def norm_data(data):

@@ -1,7 +1,7 @@
 import os
 import time
 
-import pyRAPL
+# import pyRAPL
 import pandas as pd
 from joblib import load
 from symp_extractor import symp_extractor
@@ -61,29 +61,27 @@ def get_label_var(dataset):
 
 if __name__ == "__main__":
     model = load("model.joblib")
-    pyRAPL.setup()
-    measure = pyRAPL.Measurement("bar")
-    csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
-    times = []
+    # pyRAPL.setup()
+    # measure = pyRAPL.Measurement("bar")
+    # csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
+    # times = []
     os.makedirs("our_approach_results", exist_ok=True)
     for i in range(20):
         for file in os.listdir("../data"):
             data = pd.read_csv(f"../data/{file}")
             label, pos_label, sensitive_var = get_label_var(file)
-            measure.begin()
+            # measure.begin()
             start_time = time.time()
             symptoms = symp_extractor(data, label, pos_label, sensitive_var)
-            print(symptoms)
             pred = model.predict(symptoms)
             end_time = time.time()
-            measure.end()
-            measure.export(csv_output)
-            times.append(end_time - start_time)
-            print(pred)
+            # measure.end()
+            # measure.export(csv_output)
+            # times.append(end_time - start_time)
             print(f"Dataset: {file} completed")
             pd.DataFrame(pred).to_csv(f"our_approach_results/{file}_report.csv")
         print(f"Round: {i} completed")
-    with open("times.txt", "w") as f:
-        for time in times:
-            f.write(str(time) + "\n")
-    csv_output.save()
+    # with open("times.txt", "w") as f:
+    #     for time in times:
+    #         f.write(str(time) + "\n")
+    # csv_output.save()
