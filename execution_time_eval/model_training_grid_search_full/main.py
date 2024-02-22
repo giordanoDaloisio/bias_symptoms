@@ -1,4 +1,6 @@
+import os
 import time
+
 import pyRAPL
 import pandas as pd
 from xgboost import XGBClassifier
@@ -7,8 +9,6 @@ from sklearn.model_selection import GridSearchCV, KFold
 if __name__ == "__main__":
     pyRAPL.setup()
     measure = pyRAPL.Measurement("bar")
-    times = []
-    csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
     data = pd.read_csv("bias_symptoms.csv", index_col=[0, 1])
     model = XGBClassifier()
     params = {
@@ -18,16 +18,14 @@ if __name__ == "__main__":
         "subsample": [0.6, 0.8, 1.0],
         "colsample_bytree": [0.6, 0.8, 1.0],
     }
+    os.makedirs("measures", exist_ok=True)
+    os.makedirs("times", exist_ok=True)
     for i in range(20):
+        csv_output = pyRAPL.outputs.CSVOutput(
+            os.path.join("measures", f"measure_{i}.csv")
+        )
         measure.begin()
         start_time = time.time()
-        # kfold = KFold(n_splits=5, shuffle=True, random_state=42)
-        # for itrain, itest in kfold.split(data.index.unique().values):
-        #     train_index = data.index.unique()[itrain]
-        #     test_index = data.index.unique()[itest]
-        #     train = data.loc[train_index]
-        #     test = data.loc[test_index]
-        # Grid Search hyperparam selection
         grid = GridSearchCV(model, params, cv=5)
         grid.fit(
             data.drop(
@@ -38,9 +36,7 @@ if __name__ == "__main__":
         end_time = time.time()
         measure.end()
         measure.export(csv_output)
-        times.append(end_time - start_time)
-        print(f"Round: {i} completed")
-    with open("times.txt", "w") as f:
-        for time in times:
+        with open(os.path.join("times", f"time_{i}.txt"), "w") as f:
             f.write(str(time) + "\n")
-    csv_output.save()
+        csv_output.save()
+        print(f"Round: {i} completed")

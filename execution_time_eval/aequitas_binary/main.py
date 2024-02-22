@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 import os
 import time
 
-# import pyRAPL
+import pyRAPL
 
 
 def get_label_var(dataset):
@@ -62,16 +62,16 @@ def get_label_var(dataset):
 
 if __name__ == "__main__":
     times = []
-    # pyRAPL.setup()
-    # measure = pyRAPL.Measurement("bar")
-    # csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
+    pyRAPL.setup()
+    measure = pyRAPL.Measurement("bar")
+    csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
     os.makedirs("aequitas_results", exist_ok=True)
     for i in range(20):
         for file in os.listdir("../data"):
             data = pd.read_csv(f"../data/{file}")
             label, _, sens_var = get_label_var(file)
             if len(data[label].unique()) == 2:
-                # measure.begin()
+                measure.begin()
                 start_time = time.time()
                 train, test = train_test_split(data, test_size=0.2, random_state=42)
                 X_train = train.drop(label, axis=1)
@@ -85,8 +85,8 @@ if __name__ == "__main__":
                 audit = Audit(test[["score", "label", sens_var]])
                 audit.audit()
                 end_time = time.time()
-                # measure.end()
-                # measure.export(csv_output)
+                measure.end()
+                measure.export(csv_output)
                 audit.disparity_df.to_csv(f"aequitas_results/{file}.csv")
                 print(f"Dataset: {file} completed")
                 times.append(end_time - start_time)
@@ -94,4 +94,4 @@ if __name__ == "__main__":
     with open("times.txt", "w") as f:
         for time in times:
             f.write(str(time) + "\n")
-    # csv_output.save()
+    csv_output.save()
