@@ -4,7 +4,7 @@ import pandas as pd
 
 def data_proc(all):
     metrics = ["statistical_parity", "equal_opportunity", "average_odds"]
-    all[metrics] = all[metrics].abs()
+    all.loc[:, metrics] = all[metrics].abs()
     all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
     all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
     all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
@@ -31,7 +31,8 @@ full_data.to_csv(os.path.join("result", "all_features.csv"))
 
 bias_symp = [
     "correlation_true",
-    "spearman_correlation" "mutual_info",
+    "spearman_correlation",
+    "mutual_info",
     "unpriv_prob_pos",
     "priv_prob_pos",
     "unbalance",
