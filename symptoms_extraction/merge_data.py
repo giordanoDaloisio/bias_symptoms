@@ -31,7 +31,7 @@ full_data.to_csv(os.path.join("result", "all_features.csv"))
 
 bias_symp = [
     "correlation_true",
-    "mutual_info",
+    "spearman_correlation" "mutual_info",
     "unpriv_prob_pos",
     "priv_prob_pos",
     "unbalance",

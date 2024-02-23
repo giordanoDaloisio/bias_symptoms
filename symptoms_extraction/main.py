@@ -70,6 +70,7 @@ def analysis(
     # sensitive_value = []
     correlation_pred = []
     corr_true = []
+    spearman_true = []
     perm_importance = []
     variable = []
     performance_score = []
@@ -118,8 +119,8 @@ def analysis(
     class_entropy = []
     for i in binary_variables:
         # for v in test[i].unique():
-        correlation_pred.append(test.corr(correlation)[predicted_label][i])
-        corr_true.append(test.corr(correlation)[true_label][i])
+        corr_true.append(test[[true_label, i]].corr(correlation)[true_label][i])
+        spearman_true.append(test[[true_label, i]].corr("spearman")[true_label][i])
         # coeff.append(
         #     importance_coeff[
         #         test.drop(columns=[true_label, predicted_label]).columns.get_loc(i)
@@ -210,6 +211,7 @@ def analysis(
     symptoms["variable"] = variable
     # symptoms["perm_importance"] = perm_importance
     symptoms["correlation_true"] = corr_true
+    symptoms["spearman_correlation"] = spearman_true
     # symptoms["correlation_pred"] = correlation_pred
     # symptoms["importance_coeff"] = coeff
     symptoms["mutual_info"] = mutual_info

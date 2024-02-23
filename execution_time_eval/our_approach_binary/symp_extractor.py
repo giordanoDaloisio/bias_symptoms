@@ -7,27 +7,14 @@ from metrics import Metrics
 
 def symp_extractor(test: pd.DataFrame, true_label, positive_value, sensitive_var):
     symptoms = []
-    # symptoms = pd.DataFrame(
-    #     columns=[
-    #         "correlation_true",
-    #         "unbalance",
-    #         "unpriv_prob_pos",
-    #         "priv_prob_pos",
-    #         "mutual_info",
-    #         "kurtosis_var",
-    #         "skew_var",
-    #         "unpriv_prob_neg",
-    #         "priv_prob_neg",
-    #         "pos_prob",
-    #         "neg_prob",
-    #     ],
-    #     index=[0],
-    # )
     metrics = Metrics(test, None, true_label, positive_value)
     unpriv_prob_pos = metrics.compute_probs({sensitive_var: 0}, False)[0]
     priv_prob_pos = metrics.compute_probs({sensitive_var: 0}, False)[1]
     symptoms.append(
         test[[true_label, sensitive_var]].corr("kendall")[true_label][sensitive_var]
+    )
+    symptoms.append(
+        test[[true_label, sensitive_var]].corr("spearman")[true_label][sensitive_var]
     )
     symptoms.append(metrics.group_ratio({sensitive_var: 0}))
     symptoms.append(metrics.compute_probs({sensitive_var: 0}, False)[0])
