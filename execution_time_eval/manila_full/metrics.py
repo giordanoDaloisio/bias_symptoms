@@ -83,7 +83,7 @@ def average_odds_difference(
     fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = _compute_tpr_fpr_groups(
         data_pred, label_name, group_condition, positive_label
     )
-    return (tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)
+    return ((tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)) / 2
 
 
 def equalized_odds(

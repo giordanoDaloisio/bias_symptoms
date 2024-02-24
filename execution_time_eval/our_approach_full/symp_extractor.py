@@ -7,36 +7,20 @@ from metrics import Metrics
 
 def symp_extractor(test: pd.DataFrame, true_label, positive_value, sensitive_var):
     symptoms = []
-    # symptoms = pd.DataFrame(
-    #     columns=[
-    #         "correlation_true",
-    #         "unbalance",
-    #         "unpriv_prob_pos",
-    #         "priv_prob_pos",
-    #         "mutual_info",
-    #         "kurtosis_var",
-    #         "skew_var",
-    #         "unpriv_prob_neg",
-    #         "priv_prob_neg",
-    #         "pos_prob",
-    #         "neg_prob",
-    #     ],
-    #     index=[0],
-    # )
     metrics = Metrics(test, None, true_label, positive_value)
     unpriv_prob_pos = metrics.compute_probs({sensitive_var: 0}, False)[0]
     priv_prob_pos = metrics.compute_probs({sensitive_var: 0}, False)[1]
     symptoms.append(
         test[[true_label, sensitive_var]].corr("kendall")[true_label][sensitive_var]
     )
-    symptoms.append(metrics.group_ratio({sensitive_var: 0}))
+    symptoms.append(mutual_info_score(test[sensitive_var], test[true_label]))
     symptoms.append(metrics.compute_probs({sensitive_var: 0}, False)[0])
     symptoms.append(metrics.compute_probs({sensitive_var: 0}, False)[1])
-    symptoms.append(mutual_info_score(test[sensitive_var], test[true_label]))
-    symptoms.append(test[sensitive_var].kurt())
-    symptoms.append(test[sensitive_var].skew())
+    symptoms.append(metrics.group_ratio({sensitive_var: 0}))
     symptoms.append(1 - unpriv_prob_pos)
     symptoms.append(1 - priv_prob_pos)
     symptoms.append(unpriv_prob_pos - priv_prob_pos)
     symptoms.append((1 - unpriv_prob_pos) - (1 - priv_prob_pos))
+    symptoms.append(test[sensitive_var].kurt())
+    symptoms.append(test[sensitive_var].skew())
     return np.array(symptoms).reshape(1, -1)

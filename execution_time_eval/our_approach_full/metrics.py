@@ -118,7 +118,7 @@ class Metrics:
         fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = self.__compute_tpr_fpr_groups(
             group_condition
         )
-        return (tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)
+        return ((tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)) / 2
 
     def equal_opportunity(self, group_condition: dict):
         fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = self.__compute_tpr_fpr_groups(
@@ -150,56 +150,6 @@ class Metrics:
         return accuracy_score(
             df_pred[self.label_name].values, df_pred[self.true_label].values
         )
-
-
-# def zero_one_loss_diff(
-#     y_true: np.ndarray, y_pred: np.ndarray, sensitive_features: list
-# ):
-#     mf = MetricFrame(
-#         metrics=zero_one_loss,
-#         y_true=y_true,
-#         y_pred=y_pred,
-#         sensitive_features=sensitive_features,
-#     )
-#     return mf.difference()
-
-
-# def precision(df_pred: pd.DataFrame, label: str):
-#     return precision_score(
-#         df_pred["y_true"].values, df_pred[label].values, average="weighted"
-#     )
-
-
-# def recall(df_pred: pd.DataFrame, label: str):
-#     return recall_score(
-#         df_pred["y_true"].values, df_pred[label].values, average="weighted"
-#     )
-
-
-# def f1(df_pred: pd.DataFrame, label: str):
-#     return f1_score(df_pred["y_true"].values, df_pred[label].values, average="weighted")
-
-
-# def auc(df_pred: pd.DataFrame, label: str):
-#     return roc_auc_score(df_pred["y_true"].values, df_pred[label].values)
-
-
-# def euclidean_distance(df_pred, label):
-#     return np.linalg.norm(df_pred["y_true"].values - df_pred[label].values) / len(
-#         df_pred
-#     )
-
-
-# def manhattan_distance(df_pred, label):
-#     return np.sum(np.abs(df_pred["y_true"].values - df_pred[label].values)) / len(
-#         df_pred
-#     )
-
-
-# def mahalanobis_distance(df_pred, label):
-#     return np.sqrt(
-#         np.sum(np.square(df_pred["y_true"].values - df_pred[label].values))
-#     ) / len(df_pred)
 
 
 def norm_data(data):
