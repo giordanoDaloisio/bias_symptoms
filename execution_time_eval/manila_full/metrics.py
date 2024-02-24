@@ -83,7 +83,7 @@ def average_odds_difference(
     fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = _compute_tpr_fpr_groups(
         data_pred, label_name, group_condition, positive_label
     )
-    return ((tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)) / 2
+    return ((tpr_unpriv - tpr_priv) + (fpr_unpriv - fpr_priv)) / 2
 
 
 def equalized_odds(
@@ -92,7 +92,7 @@ def equalized_odds(
     _, tpr_unpriv, _, tpr_priv = _compute_tpr_fpr_groups(
         data_pred, label_name, group_condition, positive_label
     )
-    return tpr_priv - tpr_unpriv
+    return tpr_unpriv - tpr_priv
 
 
 def accuracy(df_pred: pd.DataFrame, label: str):
