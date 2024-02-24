@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
+from aif360.sklearn.metrics import equal_opportunity_difference
+from aif360.sklearn.metrics import statistical_parity_difference
+from aif360.sklearn.metrics import average_odds_difference as average_odds
 
 from sklearn.metrics import accuracy_score
 
@@ -71,28 +74,40 @@ def _compute_tpr_fpr_groups(data_pred, label, group_condition, positive_label):
 def statistical_parity(
     data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str
 ):
-    unpriv_group_prob, priv_group_prob = _compute_probs(
-        data_pred, label_name, positive_label, group_condition
-    )
-    return unpriv_group_prob - priv_group_prob
+    # unpriv_group_prob, priv_group_prob = _compute_probs(
+    #     data_pred, label_name, positive_label, group_condition
+    # )
+    sensitive_attr = list(group_condition.keys())[0]
+    data_pred_c = data_pred.copy()
+    data_pred_c.set_index(sensitive_attr, inplace=True)
+    return statistical_parity_difference(data_pred_c["y_true"], data_pred_c[label_name])
+    # return unpriv_group_prob - priv_group_prob
 
 
 def average_odds_difference(
     data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str
 ):
-    fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = _compute_tpr_fpr_groups(
-        data_pred, label_name, group_condition, positive_label
-    )
-    return (tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)
+    data_pred_c = data_pred.copy()
+    sensitive_attr = list(group_condition.keys())[0]
+    data_pred_c.set_index(sensitive_attr, inplace=True)
+    return average_odds(data_pred_c["y_true"], data_pred_c[label_name])
+    # fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = _compute_tpr_fpr_groups(
+    #     data_pred, label_name, group_condition, positive_label
+    # )
+    # return (tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)
 
 
 def equalized_odds(
     data_pred: pd.DataFrame, group_condition: dict, label_name: str, positive_label: str
 ):
-    _, tpr_unpriv, _, tpr_priv = _compute_tpr_fpr_groups(
-        data_pred, label_name, group_condition, positive_label
-    )
-    return tpr_priv - tpr_unpriv
+    sensitive_attr = list(group_condition.keys())[0]
+    data_pred_c = data_pred.copy()
+    data_pred_c.set_index(sensitive_attr, inplace=True)
+    return equal_opportunity_difference(data_pred_c["y_true"], data_pred_c[label_name])
+    # _, tpr_unpriv, _, tpr_priv = _compute_tpr_fpr_groups(
+    #     data_pred, label_name, group_condition, positive_label
+    # )
+    # return tpr_priv - tpr_unpriv
 
 
 def accuracy(df_pred: pd.DataFrame, label: str):
