@@ -120,13 +120,13 @@ class Metrics:
         fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = self.__compute_tpr_fpr_groups(
             group_condition
         )
-        return ((tpr_priv - tpr_unpriv) + (fpr_priv - fpr_unpriv)) / 2
+        return ((tpr_unpriv - tpr_priv) + (fpr_unpriv - tpr_priv)) / 2
 
     def equal_opportunity(self, group_condition: dict):
         fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = self.__compute_tpr_fpr_groups(
             group_condition
         )
-        return tpr_priv - tpr_unpriv
+        return tpr_unpriv - tpr_priv
 
     def equal_accuracy(self, group_condition: dict):
         unpriv_group, unpriv_group_pos, priv_group, priv_group_pos = self.__get_groups(
