@@ -26,7 +26,14 @@ if __name__ == "__main__":
         # )
         # measure.begin()
         start_time = time.time()
-        grid = GridSearchCV(model, params, cv=5, n_jobs=-1)
+        grid = GridSearchCV(
+            model,
+            params,
+            cv=5,
+            n_jobs=-1,
+            scoring=["roc_auc", "accuracy"],
+            refit="roc_auc",
+        )
         grid.fit(
             data.drop(
                 columns=["statistical_parity", "equal_opportunity", "average_odds"]
