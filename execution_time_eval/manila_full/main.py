@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import time
 
-# import pyRAPL
+import pyRAPL
 from experiment import run_exp
 import warnings
 
@@ -62,27 +62,27 @@ def get_label_var(dataset):
 
 
 if __name__ == "__main__":
-    # pyRAPL.setup()
-    # measure = pyRAPL.Measurement("bar")
-    # times = []
-    # csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
+    pyRAPL.setup()
+    measure = pyRAPL.Measurement("bar")
+    times = []
+    csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
     os.makedirs("manila_results", exist_ok=True)
     for i in range(20):
         for file in os.listdir("../data"):
             print(f"Starting dataset {file}")
             data = pd.read_csv(f"../data/{file}", index_col=0)
             label, pos_label, sensitive_var = get_label_var(file)
-            # measure.begin()
+            measure.begin()
             start_time = time.time()
             model, report = run_exp(data, label, sensitive_var, pos_label)
             end_time = time.time()
-            # measure.end()
-            # measure.export(csv_output)
-            # times.append(end_time - start_time)
+            measure.end()
+            measure.export(csv_output)
+            times.append(end_time - start_time)
             print(f"Dataset: {file} completed")
             report.to_csv(f"manila_results/{file}_report.csv")
         print(f"Round: {i} completed")
-    # with open("times.txt", "w") as f:
-    #     for time in times:
-    #         f.write(str(time) + "\n")
-    # csv_output.save()
+    with open("times.txt", "w") as f:
+        for time in times:
+            f.write(str(time) + "\n")
+    csv_output.save()
