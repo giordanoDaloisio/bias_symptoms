@@ -8,9 +8,9 @@ def data_proc(all):
     all.loc[:, metrics] = all[metrics].abs()
     all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
     all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
-    all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
+    all.loc[all["equal_opportunity"] > 0.1, "equal_opportunity"] = 1
     all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
-    all.loc[all["average_odds"] > 0.2, "average_odds"] = 1
+    all.loc[all["average_odds"] > 0.15, "average_odds"] = 1
     all.loc[all["average_odds"] != 1, "average_odds"] = 0
     return all
 
@@ -30,7 +30,6 @@ for file in os.listdir(base_folder):
     full_data = pd.concat([full_data, df])
 
 full_data.set_index(["variable", "data"], inplace=True)
-full_data.to_csv(os.path.join(f"result_{args.folder}", "all_features.csv"))
 
 bias_symp = [
     "correlation_true",
@@ -50,7 +49,6 @@ bias_symp = [
 ]
 
 symp_data = full_data[bias_symp]
-symp_data.to_csv(os.path.join(f"result_{args.folder}", "bias_symptoms.csv"))
 
 metafeatures = [
     "statistical_parity",
@@ -97,7 +95,6 @@ metafeatures = [
 ]
 
 meta_data = full_data[metafeatures]
-meta_data.to_csv(os.path.join(f"result_{args.folder}", "metafeatures.csv"))
 
 data_proc(full_data).to_csv(
     os.path.join(f"result_class_{args.folder}", "all_features.csv")
