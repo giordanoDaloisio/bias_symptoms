@@ -64,11 +64,14 @@ def get_label_var(dataset):
 if __name__ == "__main__":
     pyRAPL.setup()
     measure = pyRAPL.Measurement("bar")
-    times = []
-    csv_output = pyRAPL.outputs.CSVOutput("measures.csv")
     os.makedirs("manila_results", exist_ok=True)
+    os.makedirs("measures", exist_ok=True)
+    os.makedirs("times", exist_ok=True)
     for i in range(20):
         for file in os.listdir("../data"):
+            csv_output = pyRAPL.outputs.CSVOutput(
+                os.path.join("measures", f"measure_{i}.csv")
+            )
             print(f"Starting dataset {file}")
             data = pd.read_csv(f"../data/{file}", index_col=0)
             label, pos_label, sensitive_var = get_label_var(file)
@@ -78,11 +81,10 @@ if __name__ == "__main__":
             end_time = time.time()
             measure.end()
             measure.export(csv_output)
-            times.append(end_time - start_time)
+            # times.append(end_time - start_time)
             print(f"Dataset: {file} completed")
             report.to_csv(f"manila_results/{file}_report.csv")
+        with open(os.path.join("times", f"time_{i}.txt"), "w") as f:
+            f.write(str(end_time - start_time) + "\n")
+        csv_output.save()
         print(f"Round: {i} completed")
-    with open("times.txt", "w") as f:
-        for time in times:
-            f.write(str(time) + "\n")
-    csv_output.save()
