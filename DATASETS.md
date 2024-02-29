@@ -1,7 +1,7 @@
 # List of employed datasets
 
-| Datasets             | Positive Label          | Label Type |
-| -------------------- | ----------------------- | ---------- |
+| Datasets             | Positive Label          | Label Type | Number of binary columns |
+| -------------------- | ----------------------- | ---------- | ------------------------ |
 | Adult                | Income > 50K (1)        | Binary     |
 | Arrhythmia           | Normal (1)              | Multiclass |
 | Bank                 | Subscribed (1)          | Binary     |
