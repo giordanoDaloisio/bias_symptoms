@@ -46,21 +46,6 @@ def analysis(
     ]
     metrics = Metrics(test, predicted_label, true_label, positive_value)
 
-    "correlation_true",
-    "mutual_info",
-    "unpriv_prob_pos",
-    "priv_prob_pos",
-    "unbalance",
-    "statistical_parity",
-    "equal_opportunity",
-    "average_odds",
-    "unpriv_prob_neg",
-    "priv_prob_neg",
-    "pos_prob",
-    "neg_prob",
-    "kurtosis_var",
-    "skew_var",
-
     sp = []
     eo = []
     aod = []

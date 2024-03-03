@@ -1,20 +1,18 @@
-\begin{tabular}{lllllllllllllll}
+\begin{tabular}{lllllllllllll}
 \toprule
- & correlation_true & mutual_info & unpriv_prob_pos & priv_prob_pos & unbalance & unpriv_prob_neg & priv_prob_neg & pos_prob & neg_prob & kurtosis_var & skew_var & statistical_parity & equal_opportunity & average_odds \\
+ & correlation_true & mutual_info & unpriv_prob_pos & priv_prob_pos & unpriv_unbalance & priv_unbalance & pos_prob & kurtosis_var & skew_var & statistical_parity & equal_opportunity & average_odds \\
 \midrule
-correlation_true & \cellcolor{black!25}\textbf{1.0} & 0.015* & 0.018 & -0.109 & -0.038 & -0.018 & 0.109 & 0.042 & -0.105 & -0.002* & 0.015* & -0.021 & -0.179 & 0.022 \\
-mutual_info & 0.015* & \cellcolor{black!25}\textbf{1.0} & 0.148 & 0.031 & 0.083 & -0.148 & -0.031 & \cellcolor{black!25}\textbf{0.341} & -0.047 & -0.290 & -0.274 & 0.022 & 0.016 & 0.017* \\
-unpriv_prob_pos & 0.018 & 0.148 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.333} & 0.132 & \cellcolor{black!25}\textbf{-1.0} & \cellcolor{black!25}\textbf{-0.333} & 0.105 & -0.113 & -0.120 & -0.059 & 0.063 & 0.009 & 0.063 \\
-priv_prob_pos & -0.109 & 0.031 & \cellcolor{black!25}\textbf{0.333} & \cellcolor{black!25}\textbf{1.0} & -0.255 & \cellcolor{black!25}\textbf{-0.333} & \cellcolor{black!25}\textbf{-1.0} & -0.020 & \cellcolor{black!25}\textbf{0.581} & -0.155 & -0.143 & \cellcolor{black!25}\textbf{-0.326} & 0.006 & -0.219 \\
-unbalance & -0.038 & 0.083 & 0.132 & -0.255 & \cellcolor{black!25}\textbf{1.0} & -0.132 & 0.255 & -0.0* & \cellcolor{black!25}\textbf{-0.51} & -0.069 & -0.001* & \cellcolor{black!25}\textbf{0.345} & -0.022 & 0.239 \\
-unpriv_prob_neg & -0.018 & -0.148 & \cellcolor{black!25}\textbf{-1.0} & \cellcolor{black!25}\textbf{-0.333} & -0.132 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.333} & -0.105 & 0.113 & 0.120 & 0.059 & -0.063 & -0.009 & -0.063 \\
-priv_prob_neg & 0.109 & -0.031 & \cellcolor{black!25}\textbf{-0.333} & \cellcolor{black!25}\textbf{-1.0} & 0.255 & \cellcolor{black!25}\textbf{0.333} & \cellcolor{black!25}\textbf{1.0} & 0.020 & \cellcolor{black!25}\textbf{-0.581} & 0.155 & 0.143 & \cellcolor{black!25}\textbf{0.326} & -0.006 & 0.219 \\
-pos_prob & 0.042 & \cellcolor{black!25}\textbf{0.341} & 0.105 & -0.020 & -0.0* & -0.105 & 0.020 & \cellcolor{black!25}\textbf{1.0} & -0.109 & \cellcolor{black!25}\textbf{0.309} & 0.262 & 0.025 & 0.123 & 0.245 \\
-neg_prob & -0.105 & -0.047 & -0.113 & \cellcolor{black!25}\textbf{0.581} & \cellcolor{black!25}\textbf{-0.51} & 0.113 & \cellcolor{black!25}\textbf{-0.581} & -0.109 & \cellcolor{black!25}\textbf{1.0} & -0.055 & -0.101 & \cellcolor{black!25}\textbf{-0.498} & 0.056 & -0.300 \\
-kurtosis_var & -0.002* & -0.290 & -0.120 & -0.155 & -0.069 & 0.120 & 0.155 & \cellcolor{black!25}\textbf{0.309} & -0.055 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.837} & 0.038 & 0.098 & 0.264 \\
-skew_var & 0.015* & -0.274 & -0.059 & -0.143 & -0.001* & 0.059 & 0.143 & 0.262 & -0.101 & \cellcolor{black!25}\textbf{0.837} & \cellcolor{black!25}\textbf{1.0} & 0.048 & 0.079 & \cellcolor{black!25}\textbf{0.327} \\
-statistical_parity & -0.021 & 0.022 & 0.063 & \cellcolor{black!25}\textbf{-0.326} & \cellcolor{black!25}\textbf{0.345} & -0.063 & \cellcolor{black!25}\textbf{0.326} & 0.025 & \cellcolor{black!25}\textbf{-0.498} & 0.038 & 0.048 & \cellcolor{black!25}\textbf{1.0} & 0.038 & \cellcolor{black!25}\textbf{0.533} \\
-equal_opportunity & -0.179 & 0.016 & 0.009 & 0.006 & -0.022 & -0.009 & -0.006 & 0.123 & 0.056 & 0.098 & 0.079 & 0.038 & \cellcolor{black!25}\textbf{1.0} & 0.133 \\
-average_odds & 0.022 & 0.017* & 0.063 & -0.219 & 0.239 & -0.063 & 0.219 & 0.245 & -0.300 & 0.264 & \cellcolor{black!25}\textbf{0.327} & \cellcolor{black!25}\textbf{0.533} & 0.133 & \cellcolor{black!25}\textbf{1.0} \\
+correlation_true & \cellcolor{black!25}\textbf{1.0} & 0.015* & 0.018 & -0.109 & -0.038 & -0.071 & 0.042 & -0.002* & 0.015* & -0.021 & -0.179 & 0.006* \\
+mutual_info & 0.015* & \cellcolor{black!25}\textbf{1.0} & 0.148 & 0.031 & 0.083 & -0.007* & \cellcolor{black!25}\textbf{0.341} & -0.290 & -0.274 & 0.022 & 0.016 & 0.020 \\
+unpriv_prob_pos & 0.018 & 0.148 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.333} & 0.132 & -0.001* & 0.105 & -0.120 & -0.059 & 0.063 & 0.009 & 0.058 \\
+priv_prob_pos & -0.109 & 0.031 & \cellcolor{black!25}\textbf{0.333} & \cellcolor{black!25}\textbf{1.0} & -0.255 & \cellcolor{black!25}\textbf{0.643} & -0.020 & -0.155 & -0.143 & \cellcolor{black!25}\textbf{-0.326} & 0.006 & -0.232 \\
+unpriv_unbalance & -0.038 & 0.083 & 0.132 & -0.255 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{-0.428} & -0.0* & -0.069 & -0.001* & \cellcolor{black!25}\textbf{0.345} & -0.023 & 0.254 \\
+priv_unbalance & -0.071 & -0.007* & -0.001* & \cellcolor{black!25}\textbf{0.643} & \cellcolor{black!25}\textbf{-0.428} & \cellcolor{black!25}\textbf{1.0} & -0.074 & -0.104 & -0.117 & \cellcolor{black!25}\textbf{-0.451} & -0.005 & \cellcolor{black!25}\textbf{-0.315} \\
+pos_prob & 0.042 & \cellcolor{black!25}\textbf{0.341} & 0.105 & -0.020 & -0.0* & -0.074 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.309} & 0.262 & 0.025 & 0.124 & 0.239 \\
+kurtosis_var & -0.002* & -0.290 & -0.120 & -0.155 & -0.069 & -0.104 & \cellcolor{black!25}\textbf{0.309} & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.837} & 0.038 & 0.098 & 0.262 \\
+skew_var & 0.015* & -0.274 & -0.059 & -0.143 & -0.001* & -0.117 & 0.262 & \cellcolor{black!25}\textbf{0.837} & \cellcolor{black!25}\textbf{1.0} & 0.048 & 0.079 & \cellcolor{black!25}\textbf{0.327} \\
+statistical_parity & -0.021 & 0.022 & 0.063 & \cellcolor{black!25}\textbf{-0.326} & \cellcolor{black!25}\textbf{0.345} & \cellcolor{black!25}\textbf{-0.451} & 0.025 & 0.038 & 0.048 & \cellcolor{black!25}\textbf{1.0} & 0.037 & \cellcolor{black!25}\textbf{0.55} \\
+equal_opportunity & -0.179 & 0.016 & 0.009 & 0.006 & -0.023 & -0.005 & 0.124 & 0.098 & 0.079 & 0.037 & \cellcolor{black!25}\textbf{1.0} & 0.139 \\
+average_odds & 0.006* & 0.020 & 0.058 & -0.232 & 0.254 & \cellcolor{black!25}\textbf{-0.315} & 0.239 & 0.262 & \cellcolor{black!25}\textbf{0.327} & \cellcolor{black!25}\textbf{0.55} & 0.139 & \cellcolor{black!25}\textbf{1.0} \\
 \bottomrule
 \end{tabular}

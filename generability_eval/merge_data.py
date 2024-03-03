@@ -8,7 +8,7 @@ def data_proc(all):
     all.loc[:, metrics] = all[metrics].abs()
     all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
     all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
-    all.loc[all["equal_opportunity"] > 0.1, "equal_opportunity"] = 1
+    all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
     all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
     all.loc[all["average_odds"] > 0.15, "average_odds"] = 1
     all.loc[all["average_odds"] != 1, "average_odds"] = 0
@@ -30,20 +30,20 @@ for file in os.listdir(base_folder):
     full_data = pd.concat([full_data, df])
 
 full_data.set_index(["variable", "data"], inplace=True)
+full_data.drop(columns=["neg_prob", "priv_prob_neg", "unpriv_prob_neg"], inplace=True)
+full_data["pos_prob"] = full_data["pos_prob"].abs()
 
 bias_symp = [
     "correlation_true",
     "mutual_info",
     "unpriv_prob_pos",
     "priv_prob_pos",
-    "unbalance",
+    "unpriv_unbalance",
+    "priv_unbalance",
     "statistical_parity",
     "equal_opportunity",
     "average_odds",
-    "unpriv_prob_neg",
-    "priv_prob_neg",
     "pos_prob",
-    "neg_prob",
     "kurtosis_var",
     "skew_var",
 ]
@@ -96,12 +96,12 @@ metafeatures = [
 
 meta_data = full_data[metafeatures]
 
-data_proc(full_data).to_csv(
-    os.path.join(f"result_class_{args.folder}", "all_features.csv")
-)
+# data_proc(full_data).to_csv(
+#     os.path.join(f"result_class_{args.folder}", "all_features.csv")
+# )
 data_proc(symp_data).to_csv(
-    os.path.join(f"result_class_{args.folder}", "bias_symptoms.csv")
+    os.path.join(f"result_class_{args.folder}", f"bias_symptoms_{args.folder}.csv")
 )
-data_proc(meta_data).to_csv(
-    os.path.join(f"result_class_{args.folder}", "metafeatures.csv")
-)
+# data_proc(meta_data).to_csv(
+#     os.path.join(f"result_class_{args.folder}", "metafeatures.csv")
+# )
