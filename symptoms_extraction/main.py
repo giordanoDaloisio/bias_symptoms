@@ -76,70 +76,70 @@ def analysis(
         # performance_score.append(metrics.accuracy(test))
         mutual_info.append(mutual_info_score(test[i], test[true_label]))
 
-        instance_num.append(test.shape[0])
-        log_inst_num.append(np.log(test.shape[0]))
-        class_num.append(len(test[label].unique()))
-        feat_num.append(test.shape[1])
-        log_feat_num.append(np.log(test.shape[1]))
-        inst_missing_vals.append(0)
-        perc_inst_missing_val.append(0)
-        feat_missing_val.append(0)
-        perc_feat_missing_val.append(0)
-        missing_vals.append(0)
-        perc_miss_vals.append(0)
-        numeric_features.append(len(test.select_dtypes(include=["number"]).columns))
-        cat_features.append(len(test.select_dtypes(exclude=["number"]).columns))
-        ratio_num_cat.append(
-            len(test.select_dtypes(include=["number"]).columns)
-            / len(test.select_dtypes(exclude=["number"]).columns)
-            if len(test.select_dtypes(exclude=["number"]).columns) > 0
-            else 1
-        )
-        ratio_cat_num.append(
-            len(test.select_dtypes(exclude=["number"]).columns)
-            / len(test.select_dtypes(include=["number"]).columns)
-            if len(test.select_dtypes(include=["number"]).columns) > 0
-            else 1
-        )
-        dataset_ratio.append(test.shape[1] / test.shape[0])
-        log_dataset_ratio.append(np.log(test.shape[1] / test.shape[0]))
-        inverse_ratio.append(test.shape[0] / test.shape[1])
-        log_inverse_ratio.append(np.log(test.shape[0] / test.shape[1]))
-        probs = get_probs(test, label)
+        # instance_num.append(test.shape[0])
+        # log_inst_num.append(np.log(test.shape[0]))
+        # class_num.append(len(test[label].unique()))
+        # feat_num.append(test.shape[1])
+        # log_feat_num.append(np.log(test.shape[1]))
+        # inst_missing_vals.append(0)
+        # perc_inst_missing_val.append(0)
+        # feat_missing_val.append(0)
+        # perc_feat_missing_val.append(0)
+        # missing_vals.append(0)
+        # perc_miss_vals.append(0)
+        # numeric_features.append(len(test.select_dtypes(include=["number"]).columns))
+        # cat_features.append(len(test.select_dtypes(exclude=["number"]).columns))
+        # ratio_num_cat.append(
+        #     len(test.select_dtypes(include=["number"]).columns)
+        #     / len(test.select_dtypes(exclude=["number"]).columns)
+        #     if len(test.select_dtypes(exclude=["number"]).columns) > 0
+        #     else 1
+        # )
+        # ratio_cat_num.append(
+        #     len(test.select_dtypes(exclude=["number"]).columns)
+        #     / len(test.select_dtypes(include=["number"]).columns)
+        #     if len(test.select_dtypes(include=["number"]).columns) > 0
+        #     else 1
+        # )
+        # dataset_ratio.append(test.shape[1] / test.shape[0])
+        # log_dataset_ratio.append(np.log(test.shape[1] / test.shape[0]))
+        # inverse_ratio.append(test.shape[0] / test.shape[1])
+        # log_inverse_ratio.append(np.log(test.shape[0] / test.shape[1]))
+        # probs = get_probs(test, label)
         # ic(probs)
-        class_prob_min.append(min(probs))
-        class_prob_max.append(max(probs))
-        class_prob_mean.append(np.mean(probs))
-        class_prob_std.append(np.std(probs))
-        symbols.append(2)
-        symbs = get_symbols(test)
-        if len(symbs) != 0:
-            symbols_min.append(min(symbs))
-            symbols_max.append(max(symbs))
-            symbols_mean.append(np.mean(symbs))
-            symbols_std.append(np.std(symbs))
-            symbols_sum.append(np.sum(symbs))
-        else:
-            symbols_min.append(0)
-            symbols_max.append(0)
-            symbols_mean.append(0)
-            symbols_std.append(0)
-            symbols_sum.append(0)
+        # class_prob_min.append(min(probs))
+        # class_prob_max.append(max(probs))
+        # class_prob_mean.append(np.mean(probs))
+        # class_prob_std.append(np.std(probs))
+        # symbols.append(2)
+        # symbs = get_symbols(test)
+        # if len(symbs) != 0:
+        #     symbols_min.append(min(symbs))
+        #     symbols_max.append(max(symbs))
+        #     symbols_mean.append(np.mean(symbs))
+        #     symbols_std.append(np.std(symbs))
+        #     symbols_sum.append(np.sum(symbs))
+        # else:
+        #     symbols_min.append(0)
+        #     symbols_max.append(0)
+        #     symbols_mean.append(0)
+        #     symbols_std.append(0)
+        #     symbols_sum.append(0)
 
         kurt = test.kurt()
-        kurtosis_min.append(min(kurt))
-        kurtosis_max.append(max(kurt))
-        kurtosis_mean.append(np.mean(kurt))
-        kurtosis_std.append(np.std(kurt))
+        # kurtosis_min.append(min(kurt))
+        # kurtosis_max.append(max(kurt))
+        # kurtosis_mean.append(np.mean(kurt))
+        # kurtosis_std.append(np.std(kurt))
         kurtosis_var.append(kurt[i])
 
         skew = test.skew()
-        skew_min.append(min(skew))
-        skew_max.append(max(skew))
-        skew_std.append(np.std(skew))
-        skew_mean.append(np.mean(skew))
+        # skew_min.append(min(skew))
+        # skew_max.append(max(skew))
+        # skew_std.append(np.std(skew))
+        # skew_mean.append(np.mean(skew))
         skew_var.append(skew[i])
-        class_entropy.append(entropy(test[label].values))
+        # class_entropy.append(entropy(test[label].values))
 
     symptoms["variable"] = variable
     # symptoms["perm_importance"] = perm_importance
@@ -158,10 +158,10 @@ def analysis(
     symptoms["variable"] = variable
     symptoms["kurtosis_var"] = kurtosis_var
     symptoms["skew_var"] = skew_var
-    symptoms["unpriv_prob_neg"] = 1 - symptoms["unpriv_prob_pos"]
-    symptoms["priv_prob_neg"] = 1 - symptoms["priv_prob_pos"]
+    # symptoms["unpriv_prob_neg"] = 1 - symptoms["unpriv_prob_pos"]
+    # symptoms["priv_prob_neg"] = 1 - symptoms["priv_prob_pos"]
     symptoms["pos_prob"] = symptoms["unpriv_prob_pos"] - symptoms["priv_prob_pos"]
-    symptoms["neg_prob"] = symptoms["unpriv_prob_neg"] - symptoms["priv_prob_neg"]
+    # symptoms["neg_prob"] = symptoms["unpriv_prob_neg"] - symptoms["priv_prob_neg"]
 
     return symptoms
 
