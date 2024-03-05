@@ -1,0 +1,22 @@
+\begin{tabular}{lllllllllllllllll}
+\toprule
+ & correlation_true & mutual_info & unpriv_prob_pos & priv_prob_pos & unpriv_unbalance & priv_unbalance & kurtosis_var & skew_var & gini & simpson & shannon & ir & pos_prob & statistical_parity & equal_opportunity & average_odds \\
+\midrule
+correlation_true & \cellcolor{black!25}\textbf{1.0} & 0.209 & 0.289 & -0.012* & 0.246 & -0.200 & -0.199 & -0.180 & -0.150 & 0.074 & 0.070 & 0.190 & 0.147 & 0.097 & -0.214 & -0.004* \\
+mutual_info & 0.209 & \cellcolor{black!25}\textbf{1.0} & 0.223 & 0.025* & 0.188 & -0.152 & -0.185 & -0.049* & 0.014* & 0.376 & 0.358 & 0.204 & \cellcolor{black!25}\textbf{0.479} & 0.130 & -0.114 & 0.014* \\
+unpriv_prob_pos & 0.289 & 0.223 & \cellcolor{black!25}\textbf{1.0} & 0.276 & 0.340 & -0.205 & -0.122 & -0.076 & 0.013* & \cellcolor{black!25}\textbf{0.414} & \cellcolor{black!25}\textbf{0.412} & 0.107 & 0.217 & 0.265 & -0.063 & 0.114 \\
+priv_prob_pos & -0.012* & 0.025* & 0.276 & \cellcolor{black!25}\textbf{1.0} & -0.301 & \cellcolor{black!25}\textbf{0.428} & 0.004* & -0.003* & -0.009* & 0.290 & 0.294 & -0.014* & 0.125 & -0.267 & -0.072 & -0.226 \\
+unpriv_unbalance & 0.246 & 0.188 & 0.340 & -0.301 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{-0.511} & -0.067* & -0.183 & -0.095 & 0.122 & 0.126 & 0.067* & 0.082 & \cellcolor{black!25}\textbf{0.536} & -0.030 & 0.330 \\
+priv_unbalance & -0.200 & -0.152 & -0.205 & \cellcolor{black!25}\textbf{0.428} & \cellcolor{black!25}\textbf{-0.511} & \cellcolor{black!25}\textbf{1.0} & 0.079 & 0.01* & -0.015* & -0.014* & -0.006* & -0.067 & -0.120 & \cellcolor{black!25}\textbf{-0.456} & 0.011 & -0.286 \\
+kurtosis_var & -0.199 & -0.185 & -0.122 & 0.004* & -0.067* & 0.079 & \cellcolor{black!25}\textbf{1.0} & 0.105 & 0.024* & -0.201 & -0.174 & \cellcolor{black!25}\textbf{-0.899} & 0.098 & 0.007* & 0.064 & 0.066* \\
+skew_var & -0.180 & -0.049* & -0.076 & -0.003* & -0.183 & 0.01* & 0.105 & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.873} & -0.092 & -0.077 & -0.108 & 0.041* & -0.069 & 0.120 & 0.109 \\
+gini & -0.150 & 0.014* & 0.013* & -0.009* & -0.095 & -0.015* & 0.024* & \cellcolor{black!25}\textbf{0.873} & \cellcolor{black!25}\textbf{1.0} & -0.016* & -0.001* & -0.017* & -0.019* & 0.011* & 0.121 & 0.187 \\
+simpson & 0.074 & 0.376 & \cellcolor{black!25}\textbf{0.414} & 0.290 & 0.122 & -0.014* & -0.201 & -0.092 & -0.016* & \cellcolor{black!25}\textbf{1.0} & \cellcolor{black!25}\textbf{0.972} & 0.179 & 0.244 & 0.118 & -0.081 & 0.032* \\
+shannon & 0.070 & 0.358 & \cellcolor{black!25}\textbf{0.412} & 0.294 & 0.126 & -0.006* & -0.174 & -0.077 & -0.001* & \cellcolor{black!25}\textbf{0.972} & \cellcolor{black!25}\textbf{1.0} & 0.151 & 0.239 & 0.119 & -0.078 & 0.037* \\
+ir & 0.190 & 0.204 & 0.107 & -0.014* & 0.067* & -0.067 & \cellcolor{black!25}\textbf{-0.899} & -0.108 & -0.017* & 0.179 & 0.151 & \cellcolor{black!25}\textbf{1.0} & -0.091 & -0.016* & -0.083 & -0.086 \\
+pos_prob & 0.147 & \cellcolor{black!25}\textbf{0.479} & 0.217 & 0.125 & 0.082 & -0.120 & 0.098 & 0.041* & -0.019* & 0.244 & 0.239 & -0.091 & \cellcolor{black!25}\textbf{1.0} & 0.099 & -0.126 & 0.013* \\
+statistical_parity & 0.097 & 0.130 & 0.265 & -0.267 & \cellcolor{black!25}\textbf{0.536} & \cellcolor{black!25}\textbf{-0.456} & 0.007* & -0.069 & 0.011* & 0.118 & 0.119 & -0.016* & 0.099 & \cellcolor{black!25}\textbf{1.0} & -0.037 & \cellcolor{black!25}\textbf{0.569} \\
+equal_opportunity & -0.214 & -0.114 & -0.063 & -0.072 & -0.030 & 0.011 & 0.064 & 0.120 & 0.121 & -0.081 & -0.078 & -0.083 & -0.126 & -0.037 & \cellcolor{black!25}\textbf{1.0} & 0.100 \\
+average_odds & -0.004* & 0.014* & 0.114 & -0.226 & 0.330 & -0.286 & 0.066* & 0.109 & 0.187 & 0.032* & 0.037* & -0.086 & 0.013* & \cellcolor{black!25}\textbf{0.569} & 0.100 & \cellcolor{black!25}\textbf{1.0} \\
+\bottomrule
+\end{tabular}
