@@ -31,16 +31,18 @@ for file in os.listdir(base_folder):
 
 full_data.set_index(["variable", "data"], inplace=True)
 full_data["pos_prob"] = full_data["pos_prob"].abs()
-full_data["gini"] = (full_data["gini"] - full_data["gini"].mean()) / full_data[
-    "gini"
-].std()
-full_data["simpson"] = (full_data["simpson"] - full_data["simpson"].mean()) / full_data[
-    "simpson"
-].std()
-full_data["shannon"] = (full_data["shannon"] - full_data["shannon"].mean()) / full_data[
-    "shannon"
-].std()
-full_data["ir"] = (full_data["ir"] - full_data["ir"].mean()) / full_data["ir"].std()
+full_data["gini"] = (full_data["gini"] - full_data["gini"].min()) / (
+    full_data["gini"].max() - full_data["gini"].min()
+)
+full_data["simpson"] = (full_data["simpson"] - full_data["simpson"].min()) / (
+    full_data["simpson"].max() - full_data["simpson"].min()
+)
+full_data["shannon"] = (full_data["shannon"] - full_data["shannon"].min()) / (
+    full_data["shannon"].max() - full_data["shannon"].min()
+)
+full_data["ir"] = (full_data["ir"] - full_data["ir"].min()) / (
+    full_data["ir"].max() - full_data["ir"].min()
+)
 
 # bias_symp = [
 #     "correlation_true",
