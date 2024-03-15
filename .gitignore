@@ -13,3 +13,4 @@ symptoms_extraction/baselines/nursery.csv
 symptoms_extraction/baselines/placement.csv
 symptoms_extraction/baselines/us.csv
 symptoms_extraction/baselines/vaccine.csv
+.ipynb_checkpoints
