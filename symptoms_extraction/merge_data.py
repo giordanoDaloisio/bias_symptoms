@@ -15,6 +15,8 @@ def data_proc(all):
 
 
 base_folder = "symptoms_kendall_logreg"
+os.makedirs("result", exist_ok=True)
+os.makedirs("result_class", exist_ok=True)
 
 full_data = pd.DataFrame()
 
