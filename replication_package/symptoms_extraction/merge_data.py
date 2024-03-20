@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from argparse import ArgumentParser
 
 
 def data_proc(all):
@@ -14,9 +15,11 @@ def data_proc(all):
     return all
 
 
-base_folder = "symptoms_kendall_logreg"
-os.makedirs("result", exist_ok=True)
-os.makedirs("result_class", exist_ok=True)
+parser = ArgumentParser()
+parser.add_argument("-f", "--folder", help="Folder with the results")
+args = parser.parse_args()
+
+base_folder = f"symptoms_{args.folder}"
 
 full_data = pd.DataFrame()
 
@@ -26,6 +29,7 @@ for file in os.listdir(base_folder):
     df["data"] = name
     full_data = pd.concat([full_data, df])
 
+full_data.set_index(["variable", "data"], inplace=True)
 full_data["pos_prob"] = full_data["pos_prob"].abs()
 full_data["gini"] = (full_data["gini"] - full_data["gini"].min()) / (
     full_data["gini"].max() - full_data["gini"].min()
@@ -39,6 +43,9 @@ full_data["shannon"] = (full_data["shannon"] - full_data["shannon"].min()) / (
 full_data["ir"] = (full_data["ir"] - full_data["ir"].min()) / (
     full_data["ir"].max() - full_data["ir"].min()
 )
-full_data.set_index(["variable", "data"], inplace=True)
-full_data.to_csv(os.path.join("result", "bias_symptoms.csv"))
-data_proc(full_data).to_csv(os.path.join("result_class", "bias_symptoms.csv"))
+
+full_data.to_csv(os.path.join("..", "data", f"bias_symptoms_raw_{args.folder}.csv"))
+
+data_proc(full_data).to_csv(
+    os.path.join("..", "data", f"bias_symptoms_{args.folder}.csv")
+)
