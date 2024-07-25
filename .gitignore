@@ -13,6 +13,8 @@ symptoms_extraction/baselines/nursery.csv
 symptoms_extraction/baselines/placement.csv
 symptoms_extraction/baselines/us.csv
 symptoms_extraction/baselines/vaccine.csv
+.ipynb_checkpoints
+data_preprocessing
 .DS_STORE
 replication_package/rq4/data
 replication_package/symptoms_extraction/baselines
