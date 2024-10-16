@@ -96,6 +96,7 @@ def analysis(
     simpson = []
     shannon = []
     ir = []
+
     for i in binary_variables:
         corr_true.append(test[[true_label, i]].corr(correlation)[true_label][i])
         unpriv_unbalance.append(metrics.group_ratio({i: 0})[0])
