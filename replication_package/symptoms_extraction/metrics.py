@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-
-# from fairlearn.metrics import MetricFrame
 from sklearn.metrics import (
     accuracy_score,
 )
@@ -89,6 +87,8 @@ class Metrics:
         unpriv_group, unpriv_group_pos, priv_group, priv_group_pos = self.__get_groups(
             group_condition, False
         )
+        unpriv_ratio = 0
+        priv_ratio = 0
         if len(unpriv_group_pos) > 0:
             w_exp = (len(unpriv_group) / len(self.data_pred)) * (
                 len(
@@ -99,8 +99,19 @@ class Metrics:
                 / len(self.data_pred)
             )
             w_obs = len(unpriv_group_pos) / len(self.data_pred)
-            return w_obs / w_exp
-        return 0
+            unpriv_ratio = w_obs / w_exp
+        if len(priv_group_pos) > 0:
+            w_exp = (len(priv_group) / len(self.data_pred)) * (
+                len(
+                    self.data_pred[
+                        self.data_pred[self.true_label] == self.positive_label
+                    ]
+                )
+                / len(self.data_pred)
+            )
+            w_obs = len(priv_group_pos) / len(self.data_pred)
+            priv_ratio = w_obs / w_exp
+        return unpriv_ratio, priv_ratio
 
     def disparate_impact(self, group_condition):
         unpriv_group_prob, priv_group_prob = self.compute_probs(group_condition)
@@ -116,11 +127,15 @@ class Metrics:
         unpriv_group_prob, priv_group_prob = self.compute_probs(group_condition)
         return unpriv_group_prob - priv_group_prob
 
+    def disparate_impact(self, group_condition: dict):
+        unpriv_group_prob, priv_group_prob = self.compute_probs(group_condition)
+        return unpriv_group_prob / priv_group_prob if priv_group_prob != 0 else 0
+
     def average_odds(self, group_condition: dict):
         fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = self.__compute_tpr_fpr_groups(
             group_condition
         )
-        return ((tpr_unpriv - tpr_priv) + (fpr_unpriv - tpr_priv)) / 2
+        return ((tpr_unpriv - tpr_priv) + (fpr_unpriv - fpr_priv)) / 2
 
     def equal_opportunity(self, group_condition: dict):
         fpr_unpriv, tpr_unpriv, fpr_priv, tpr_priv = self.__compute_tpr_fpr_groups(
