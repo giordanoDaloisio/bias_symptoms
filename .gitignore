@@ -16,6 +16,11 @@ symptoms_extraction/baselines/vaccine.csv
 .ipynb_checkpoints
 data_preprocessing
 .DS_STORE
+
 .Rproj.user
 .RData
 .Rhistory
+
+replication_package/rq4/data
+replication_package/symptoms_extraction/baselines
+
