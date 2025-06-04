@@ -24,7 +24,6 @@ Next install the following packages using `pip`:
 - `seaborn`
 - `xgboost`
 - `jupyterlab`
-- `pyRAPL`
 
 ## Structure
 
@@ -34,15 +33,15 @@ The replication package is structured as follows:
 
 - `data_analysis/`: contains the Jupyter notebooks used to perform the statistics reported in Section 3 of the paper.
 
-- `rq1/`: contains the Jupyter notebook used to answer RQ1, as well as the raw results and figures.
+- `rq1/`: contains the Jupyter notebook used to answer RQ1.
 
-- `rq2/`: contains the Jupyter notebook used to answer RQ2, and the figures.
+- `rq2/`: contains the Jupyter notebook used to answer RQ2.
 
-- `rq3/`: contains the Jupyter notebook used to answer RQ3, and the figures.
+- `rq3/`: contains the Jupyter notebook used to answer RQ3.
 
-- `rq4/`: contains the Jupyter notebook used to answer RQ4, and the source code of the two baselines employed (i.e., `standard` and `aequitas`).
+- `rq4/`: contains the Jupyter notebook used to answer RQ4.
 
-- `small_data_analysis`: contains the Jupyter notebook used to replicate RQ2 and the statistics reported in Section 3 of the paper using only datasets having a number of binary variables within the 75% of the total employed datasets.
+- `small_data_analysis`: contains the Jupyter notebook used to replicate RQ1 and RQ3 and the statistics reported in Section 3 of the paper using only datasets having a number of binary variables within the 75% of the total employed datasets.
 
 - `symptoms_extraction`: contains the code used to generate the bias symptoms dataset. In particular, `main.py` is the script used to extract the symptoms and the raw bias metrics from all the 24 datasets, `merge_data.py` is the script used to preprocess and merge the different symptoms into a single dataset.
 

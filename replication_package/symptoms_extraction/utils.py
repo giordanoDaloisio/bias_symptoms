@@ -2,18 +2,24 @@ def get_label(dataset):
     if "adult" in dataset:
         return ("income", 1)
     if "ad" in dataset:
-        return ('y', 1)
-    if 'athlete' in dataset:
-        return ('Medal_Gold', 1)
-    if 'diabetic' in dataset:
-        return ('diabetesMed', 0)
-    if 'ibm' in dataset:
-        return ('Attrition', 0)
-    if 'kddcup' in dataset:
-        return ('y', 1)
+        return ("y", 1)
+    if "athlete" in dataset:
+        return ("Medal_Gold", 1)
+    if "diabetic" in dataset:
+        return ("diabetesMed", 0)
+    if "ibm" in dataset:
+        return ("Attrition", 0)
+    if "nursery" in dataset:
+        return ("y", 2)
+    if "placement" in dataset:
+        return ("status", 1)
+    if "vaccine" in dataset:
+        return ("lowtrustvaccinerec", 0)
+    if "us" in dataset:
+        return ("dIncome1", 3)
     if "bank" in dataset:
         return ("loan", 1)
-# if "aps" in dataset:
+    # if "aps" in dataset:
     #     return "class"
     if "cmc" in dataset:
         return ("contr_use", 2)
@@ -39,12 +45,12 @@ def get_label(dataset):
         return ("y", 0)
     if "park" in dataset:
         return ("score_cut", 0)
-    if "pop_bias" in dataset:
-        return ("ranking", 1)
     if "resyduo" in dataset:
         return ("tot_recommendations", 1)
     if "student" in dataset:
         return ("y", 1)
     if "wine" in dataset:
         return ("quality", 6)
+    if "ricci" in dataset:
+        return ("Combine", 1)
     return ("y", 1)

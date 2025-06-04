@@ -1,6 +1,6 @@
-# Automated detection of bias symptoms to support fairness auditing processes: yay or nay?
+# Towards Early Detection of Algorithmic Bias from Dataset's Bias Symptoms: An Empirical Study
 
-This repository contains the appendix and the replication package for the paper _Automated detection of bias symptoms to support fairness auditing processes: yay or nay?_.
+This repository contains the appendix and the replication package for the paper _Towards Early Detection of Algorithmic Bias from Dataset's Bias Symptoms: An Empirical Study_.
 
 The repository is organized as follows:
 
