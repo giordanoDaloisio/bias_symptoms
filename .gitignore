@@ -23,4 +23,4 @@ data_preprocessing
 
 replication_package/rq4/data
 replication_package/symptoms_extraction/baselines
-
+*.Rproj
