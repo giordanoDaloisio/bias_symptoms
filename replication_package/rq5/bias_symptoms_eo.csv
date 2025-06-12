@@ -1,0 +1,5 @@
+,model,ap,ap,accuracy,accuracy,precision,precision,recall,recall,f1,f1
+,,mean,std,mean,std,mean,std,mean,std,mean,std
+0,MLP,0.689,0.164,0.678,0.165,0.649,0.257,0.594,0.167,0.599,0.182
+1,Random Forest,0.776,0.147,0.728,0.139,0.71,0.221,0.648,0.132,0.674,0.172
+2,XGBoost,0.779,0.123,0.741,0.123,0.662,0.22,0.656,0.199,0.654,0.2

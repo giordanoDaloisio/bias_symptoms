@@ -12,99 +12,53 @@ def train_model(
     params: dict,
     data_name: str,
     model_name: str,
+    label: str,
+    no_dsp: bool = False,
+    balanced: bool = False,
+    unbalanced: bool = False,
+    clean: bool = False,
+    noisy: bool = False,
 ):
-    # results = []
-    # kfold = KFold(n_splits=5, shuffle=True, random_state=42)
-    # for itrain, itest in kfold.split(data.index.unique().values):
-        # train_index = data.index.unique()[itrain]
-        # test_index = data.index.unique()[itest]
-        # train = data.loc[train_index]
-        # test = data.loc[test_index]
-        # Grid Search hyperparam selection
-    grid = GridSearchCV(model, params, cv=5, scoring='roc_auc')
+    grid = GridSearchCV(model, params, cv=5, scoring='f1', n_jobs=-1)
+    cols_to_drop = ["statistical_parity", "equal_opportunity", "average_odds"]
+    if no_dsp:
+        cols_to_drop.append("pos_prob")
+    if balanced:
+        bal_data = pd.read_csv("stats/balanced.csv")
+        bal_data['File'] = bal_data['File'].str.replace('.csv', '')
+        print(bal_data)
+        data = data[data.index.get_level_values(0).isin(bal_data['File'])]
+        print(len(data.index))
+    elif unbalanced:
+        unbal_data = pd.read_csv("stats/unbalanced.csv")
+        unbal_data['File'] = unbal_data['File'].str.replace('.csv', '')
+        data = data[data.index.get_level_values(0).isin(unbal_data['File'])]
+    elif clean:
+        clean_data = pd.read_csv("stats/clean.csv")
+        clean_data['File'] = clean_data['File'].str.replace('.csv', '')
+        data = data[data.index.get_level_values(0).isin(clean_data['File'])]
+    elif noisy:
+        noisy_data = pd.read_csv("stats/noisy.csv")
+        noisy_data['File'] = noisy_data['File'].str.replace('.csv', '')
+        data = data[data.index.get_level_values(0).isin(noisy_data['File'])]
     grid.fit(
             data.drop(
-                columns=["statistical_parity", "equal_opportunity", "average_odds"]
+                columns=cols_to_drop
             ).values,
-            data[["statistical_parity", "equal_opportunity", "average_odds"]].values,
+            data[label].values,
         )
-    dump(grid.best_estimator_, f"{data_name}_{model_name}.joblib")
+    if no_dsp:
+        dump(grid.best_estimator_, f"{data_name}_{model_name}_{label}_nodsp.joblib")
+    elif balanced:
+        dump(grid.best_estimator_, f"{data_name}_{model_name}_{label}_balanced.joblib")
+    elif unbalanced:
+        dump(grid.best_estimator_, f"{data_name}_{model_name}_{label}_unbalanced.joblib")
+    elif clean:
+        dump(grid.best_estimator_, f"{data_name}_{model_name}_{label}_clean.joblib")
+    elif noisy:
+        dump(grid.best_estimator_, f"{data_name}_{model_name}_{label}_noisy.joblib")
+    else:
+        dump(grid.best_estimator_, f"{data_name}_{model_name}_{label}.joblib")
     with open(f"best_params_{model_name}.txt", "+a") as f:
         f.write(str(grid.best_params_) + "\n")
 
-        # Validation of the best estimator
-        # kfold = KFold(n_splits=5)
-        # datasets = test.index.get_level_values(1).unique()
-        # for dataset in datasets:
-        #     # train = test.iloc[itrain]
-        #     validation = test.loc[test.index.get_level_values(1) == dataset]
-        # grid.best_estimator_.fit(
-        #     train.drop(
-        #         columns=["statistical_parity", "equal_opportunity", "average_odds"]
-        #     ).values,
-        #     train[["statistical_parity", "equal_opportunity", "average_odds"]].values,
-        # )
-        # predictions = grid.best_estimator_.predict(
-        #     test.drop(
-        #         columns=["statistical_parity", "equal_opportunity", "average_odds"]
-        #     ).values
-        # )
-        # sp_true = test["statistical_parity"].values
-        # eo_true = test["equal_opportunity"].values
-        # ao_true = test["average_odds"].values
-        # sp_pred = [pred[0] for pred in predictions]
-        # eo_pred = [pred[1] for pred in predictions]
-        # ao_pred = [pred[2] for pred in predictions]
-        # results.append(
-        #     pd.DataFrame(
-        #         {
-        #             "sp_true": sp_true,
-        #             "eo_true": eo_true,
-        #             "ao_true": ao_true,
-        #             "sp_pred": sp_pred,
-        #             "eo_pred": eo_pred,
-        #             "ao_pred": ao_pred,
-        #         }
-        #     )
-        # )
-        # sp_scores_r2.append(accuracy_score(validation["statistical_parity"], sp))
-        # eo_scores_r2.append(accuracy_score(validation["equal_opportunity"], eo))
-        # ao_scores_r2.append(accuracy_score(validation["average_odds"], ao))
-        # sp_scores_mape.append(f1_score(validation["statistical_parity"], sp))
-        # eo_scores_mape.append(f1_score(validation["equal_opportunity"], eo))
-        # ao_scores_mape.append(f1_score(validation["average_odds"], ao))
-        # sp_scores_prec.append(precision_score(validation["statistical_parity"], sp))
-        # eo_scores_prec.append(precision_score(validation["equal_opportunity"], eo))
-        # ao_scores_prec.append(precision_score(validation["average_odds"], ao))
-        # sp_scores_rec.append(recall_score(validation["statistical_parity"], sp))
-        # eo_scores_rec.append(recall_score(validation["equal_opportunity"], eo))
-        # ao_scores_rec.append(recall_score(validation["average_odds"], ao))
-    # r2_scores = pd.DataFrame(
-    #     {
-    #         "Statistical Parity": sp_scores_r2,
-    #         "Equal Opportunity": eo_scores_r2,
-    #         "Average Odds": ao_scores_r2,
-    #     }
-    # )
-    # mape_scores = pd.DataFrame(
-    #     {
-    #         "Statistical Parity": sp_scores_mape,
-    #         "Equal Opportunity": eo_scores_mape,
-    #         "Average Odds": ao_scores_mape,
-    #     }
-    # )
-    # prec_scores = pd.DataFrame(
-    #     {
-    #         "Statistical Parity": sp_scores_prec,
-    #         "Equal Opportunity": eo_scores_prec,
-    #         "Average Odds": ao_scores_prec,
-    #     }
-    # )
-    # rec_scores = pd.DataFrame(
-    #     {
-    #         "Statistical Parity": sp_scores_rec,
-    #         "Equal Opportunity": eo_scores_rec,
-    #         "Average Odds": ao_scores_rec,
-    #     }
-    # )
-    # return results

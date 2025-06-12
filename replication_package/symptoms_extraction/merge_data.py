@@ -8,7 +8,7 @@ def data_proc(all):
     all.loc[:, metrics] = all[metrics].abs()
     all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
     all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
-    all.loc[all["equal_opportunity"] > 0.1, "equal_opportunity"] = 1
+    all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
     all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
     all.loc[all["average_odds"] > 0.15, "average_odds"] = 1
     all.loc[all["average_odds"] != 1, "average_odds"] = 0
@@ -51,5 +51,5 @@ full_data["ir"] = (full_data["ir"] - full_data["ir"].min()) / (
 full_data.to_csv(os.path.join("..", "data", f"bias_symptoms_raw_{args.folder}.csv"))
 
 data_proc(full_data).to_csv(
-    os.path.join("..", "data", f"bias_symptoms_{args.folder}.csv")
+    os.path.join("..", "data", f"bias_symptoms_{args.folder}_unbal.csv")
 )
