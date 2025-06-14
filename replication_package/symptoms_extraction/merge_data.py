@@ -6,12 +6,21 @@ from argparse import ArgumentParser
 def data_proc(all):
     metrics = ["statistical_parity", "equal_opportunity", "average_odds"]
     all.loc[:, metrics] = all[metrics].abs()
-    all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
-    all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
-    all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
-    all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
-    all.loc[all["average_odds"] > 0.15, "average_odds"] = 1
-    all.loc[all["average_odds"] != 1, "average_odds"] = 0
+    all['statistical_parity'] = all['statistical_parity'].map(
+        lambda x: 1 if x > 0.2 else 0
+    )
+    all['equal_opportunity'] = all['equal_opportunity'].map(
+        lambda x: 1 if x > 0.1 else 0
+    )
+    all['average_odds'] = all['average_odds'].map(
+        lambda x: 1 if x > 0.15 else 0
+    )
+    # all.loc[all["statistical_parity"] > 0.2, "statistical_parity"] = 1
+    # all.loc[all["statistical_parity"] != 1, "statistical_parity"] = 0
+    # all.loc[all["equal_opportunity"] > 0.15, "equal_opportunity"] = 1
+    # all.loc[all["equal_opportunity"] != 1, "equal_opportunity"] = 0
+    # all.loc[all["average_odds"] > 0.15, "average_odds"] = 1
+    # all.loc[all["average_odds"] != 1, "average_odds"] = 0
     if "variance" in all.columns:
         all.drop(columns=["variance"], inplace=True)
     if "covariance" in all.columns:
