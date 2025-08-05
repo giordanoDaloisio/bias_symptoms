@@ -11,3 +11,13 @@ The repository is organized as follows:
 ## Data Availability
 
 The bias symptoms datasets used in the experiments are available in the `replication_package/data` folder. For space constraints the original 24 datasets used to create the bias symptoms dataset are not included in this repository. However, the datasets can be download from the references reported in the `DATASETS.md` file and preprocessed by one-hot encoding categorical values and removing missing values.
+
+## Citation
+
+```bibtex
+@article{d5143265towards,
+  title={Towards Early Detection of Algorithmic Bias from Dataset's Bias Symptoms: An Empirical Study},
+  author={d'Aloisio, Giordano and Di Sipio, Claudio and Di Marco, Antinisca and Di Ruscio, Davide},
+  journal={Available at SSRN 5143265}
+}
+```
