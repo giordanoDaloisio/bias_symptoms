@@ -1,0 +1,2 @@
+,fairness_method,model,stat_par,eq_odds,ao,acc,hmean
+0,NO_ONE,logreg,-0.2306839394175087,-0.18092185464079874,-0.2387479991996799,0.752,0.7872512554926152
