@@ -14,10 +14,15 @@ The bias symptoms datasets used in the experiments are available in the `replica
 
 ## Citation
 
+d’Aloisio, G., Di Sipio, C., Di Marco, A., & Di Ruscio, D. (2025). Towards early detection of algorithmic bias from dataset’s bias symptoms: An empirical study. Information and Software Technology, 107905.
+
 ```bibtex
-@article{d5143265towards,
-  title={Towards Early Detection of Algorithmic Bias from Dataset's Bias Symptoms: An Empirical Study},
-  author={d'Aloisio, Giordano and Di Sipio, Claudio and Di Marco, Antinisca and Di Ruscio, Davide},
-  journal={Available at SSRN 5143265}
+@article{d2025towards,
+  title={Towards early detection of algorithmic bias from dataset’s bias symptoms: An empirical study},
+  author={d’Aloisio, Giordano and Di Sipio, Claudio and Di Marco, Antinisca and Di Ruscio, Davide},
+  journal={Information and Software Technology},
+  pages={107905},
+  year={2025},
+  publisher={Elsevier}
 }
 ```
